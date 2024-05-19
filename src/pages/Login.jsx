@@ -8,6 +8,7 @@ import InputField from "../components/molecules/InputField";
 import AuthIllustration from "../components/molecules/AuthIllustration";
 import loginIllustration from "../assets/auth/login-illustration.png";
 import { loginUser } from "../redux/slice/auth/loginSlice";
+import { generateGoogleOAuthUrl } from "../utils/oauth";
 
 const LoginPage = () => {
   const dispatch = useDispatch();
@@ -123,7 +124,10 @@ const LoginPage = () => {
         </form>
         <hr className="my-4 h-1 w-full lg:my-5" />
         <div>
-          <Link to="/" className="btn btn-outline w-full">
+          <Link
+            to={generateGoogleOAuthUrl()}
+            className="btn btn-outline w-full"
+          >
             <FcGoogle className="text-xl md:text-2xl lg:text-3xl" />
             Masuk Dengan Google
           </Link>

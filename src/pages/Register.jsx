@@ -8,6 +8,7 @@ import InputField from "../components/molecules/InputField";
 import AuthIllustration from "../components/molecules/AuthIllustration";
 import registerIllustration from "../assets/auth/register-illustration.png";
 import { registerUser } from "../redux/slice/auth/registerSlice";
+import { generateGoogleOAuthUrl } from "../utils/oauth";
 
 const RegisterPage = () => {
   const dispatch = useDispatch();
@@ -166,7 +167,10 @@ const RegisterPage = () => {
         </form>
         <hr className="my-4 h-1 w-full lg:my-5" />
         <div>
-          <Link to="/" className="btn btn-outline w-full">
+          <Link
+            to={generateGoogleOAuthUrl()}
+            className="btn btn-outline w-full"
+          >
             <FcGoogle className="text-xl md:text-2xl lg:text-3xl" />
             Daftar Dengan Google
           </Link>

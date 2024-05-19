@@ -7,6 +7,7 @@ import Loading from "./components/atoms/Loading";
 const Homepage = lazy(() => import("./pages/Homepage"));
 const Register = lazy(() => import("./pages/Register"));
 const Login = lazy(() => import("./pages/Login"));
+const OAuthCallback = lazy(() => import("./pages/OAuthCallback"));
 
 export default function App() {
   return (
@@ -17,6 +18,7 @@ export default function App() {
           <Route path="auth">
             <Route path="register" element={<Register />} />
             <Route path="login" element={<Login />} />
+            <Route path="google/callback" element={<OAuthCallback />} />
           </Route>
         </Routes>
       </Suspense>
