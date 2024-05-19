@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "../../utils/axios";
+import axios from "../../../utils/axios";
 
 export const registerUser = createAsyncThunk(
   "auth/registerUser",
@@ -7,19 +7,28 @@ export const registerUser = createAsyncThunk(
     try {
       const response = await axios.post("/auth/register", userData);
       const data = response.data;
+
       if (data.status === true) {
         return data.data;
       } else {
-        return rejectWithValue(data);
+        if (Array.isArray(data.data)) {
+          return rejectWithValue(data.data);
+        } else {
+          return rejectWithValue(data.data.error);
+        }
       }
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      if (Array.isArray(error.response.data.data)) {
+        return rejectWithValue(error.response.data.data);
+      } else {
+        return rejectWithValue(error.response.data.error);
+      }
     }
   },
 );
 
-const authSlice = createSlice({
-  name: "auth",
+const registerSlice = createSlice({
+  name: "register",
   initialState: {
     token: localStorage.getItem("token") || null,
     refreshToken: localStorage.getItem("refresh_token") || null,
@@ -56,6 +65,6 @@ const authSlice = createSlice({
   },
 });
 
-export const { logout } = authSlice.actions;
+export const { logout } = registerSlice.actions;
 
-export default authSlice.reducer;
+export default registerSlice.reducer;

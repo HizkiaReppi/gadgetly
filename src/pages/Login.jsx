@@ -2,12 +2,12 @@ import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
+import { useDispatch, useSelector } from "react-redux";
 import Button from "../components/atoms/Button";
 import InputField from "../components/molecules/InputField";
+import AuthIllustration from "../components/molecules/AuthIllustration";
 import loginIllustration from "../assets/auth/login-illustration.png";
-import logoGadgetly from "../assets/logo/logo-1-black.png";
 import { loginUser } from "../redux/slice/auth/loginSlice";
-import { useDispatch, useSelector } from "react-redux";
 
 const LoginPage = () => {
   const dispatch = useDispatch();
@@ -19,6 +19,7 @@ const LoginPage = () => {
     formState: { errors },
     reset,
   } = useForm();
+
   const loginStatus = useSelector((state) => state.login.status);
   const loginError = useSelector((state) => state.login.error);
 
@@ -30,27 +31,27 @@ const LoginPage = () => {
   }, [loginStatus, navigate, reset]);
 
   useEffect(() => {
+    const errorMapper = {
+      Email: "email",
+      Password: "password",
+    };
+
     if (loginError) {
-      if (Array.isArray(loginError)) {
-        loginError.forEach((value) => {
-          if (value.includes("Email")) {
-            setError("email", {
-              type: "manual",
-              message: value,
-            });
-          } else {
-            setError("password", {
-              type: "manual",
-              message: value,
-            });
-          }
-        });
-      } else {
-        setError("email", {
+      const errorMessages = Array.isArray(loginError)
+        ? loginError
+        : [loginError];
+
+      errorMessages.forEach((errorMessage) => {
+        const errorKey = Object.keys(errorMapper).find((key) =>
+          errorMessage.includes(key),
+        );
+        const field = errorKey ? errorMapper[errorKey] : "password";
+
+        setError(field, {
           type: "manual",
-          message: loginError,
+          message: errorMessage,
         });
-      }
+      });
     }
   }, [loginError, setError]);
 
@@ -73,7 +74,7 @@ const LoginPage = () => {
         >
           <InputField
             label="Alamat Email"
-            type="email"
+            type="text"
             name="email"
             id="email"
             placeholder="Alamat Email"
@@ -132,17 +133,10 @@ const LoginPage = () => {
           </p>
         </div>
       </div>
-      <div className="hidden rounded-xl border border-gray-300 bg-gray-50 px-10 py-14 shadow-lg lg:block">
-        <img src={logoGadgetly} alt="Logo Gadgetly" className="w-48" />
-        <h2 className="mt-9 w-96 text-3xl font-medium">
-          Halo, Selamat Datang Kembali di Gadgetly!
-        </h2>
-        <img
-          src={loginIllustration}
-          alt="Login Illustration"
-          className="mt-24"
-        />
-      </div>
+      <AuthIllustration
+        image={loginIllustration}
+        text="Halo, Selamat Datang Kembali di Gadgetly!"
+      />
     </section>
   );
 };

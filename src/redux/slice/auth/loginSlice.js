@@ -7,22 +7,20 @@ export const loginUser = createAsyncThunk(
     try {
       const response = await axios.post("/auth/login", userData);
       const data = response.data;
-      console.log(data);
+
       if (data.status === true) {
         return data.data;
       } else {
         if (Array.isArray(data.data)) {
           return rejectWithValue(data.data);
         } else {
-          return rejectWithValue(data.error);
+          return rejectWithValue(data.data.error);
         }
       }
     } catch (error) {
       if (Array.isArray(error.response.data.data)) {
-        console.log(error.response.data.data);
         return rejectWithValue(error.response.data.data);
       } else {
-        console.log(error.response.data.error);
         return rejectWithValue(error.response.data.error);
       }
     }
