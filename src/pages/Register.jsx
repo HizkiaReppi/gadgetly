@@ -1,8 +1,8 @@
 import { useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
-import { useDispatch, useSelector, useLocation } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Button from "../components/atoms/Button";
 import InputField from "../components/molecules/InputField";
 import AuthIllustration from "../components/molecules/AuthIllustration";
@@ -192,7 +192,7 @@ const RegisterPage = () => {
           </Link>
           , dan{" "}
           <Link to="/legal/privacy-policy" className="text-gray-900 underline">
-            Ketentuan Privasi
+            Kebijakan Privasi
           </Link>{" "}
           Gadgetly.
         </p>
