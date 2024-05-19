@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,6 +13,7 @@ import { generateGoogleOAuthUrl } from "../utils/oauth";
 const LoginPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
   const {
     register,
     handleSubmit,
@@ -24,12 +25,14 @@ const LoginPage = () => {
   const loginStatus = useSelector((state) => state.login.status);
   const loginError = useSelector((state) => state.login.error);
 
+  const redirectPath = location.state?.path || "/";
+
   useEffect(() => {
     if (loginStatus === "succeeded") {
-      navigate("/");
+      navigate(redirectPath, { replace: true });
       reset();
     }
-  }, [loginStatus, navigate, reset]);
+  }, [loginStatus, navigate, redirectPath, reset]);
 
   useEffect(() => {
     const errorMapper = {

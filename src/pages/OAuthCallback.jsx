@@ -1,8 +1,10 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { saveTokens } from "../redux/slice/auth/loginSlice";
 
 const OAuthCallback = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -11,12 +13,12 @@ const OAuthCallback = () => {
     const refreshToken = urlParams.get("refresh_token");
 
     if (accessToken && refreshToken) {
-      localStorage.setItem("token", accessToken);
-      localStorage.setItem("refresh_token", refreshToken);
-
+      dispatch(saveTokens({ accessToken, refreshToken }));
       navigate("/");
+    } else {
+      navigate("/auth/login");
     }
-  }, []);
+  }, [dispatch, navigate]);
 
   return null;
 };

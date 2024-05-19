@@ -18,7 +18,7 @@ export default function App() {
           <Route path="auth">
             <Route path="register" element={<Register />} />
             <Route path="login" element={<Login />} />
-            <Route path="google/callback" element={<OAuthCallback />} />
+            <Route path="oauth/callback" element={<OAuthCallback />} />
           </Route>
         </Routes>
       </Suspense>

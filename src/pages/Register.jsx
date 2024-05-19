@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector, useLocation } from "react-redux";
 import Button from "../components/atoms/Button";
 import InputField from "../components/molecules/InputField";
 import AuthIllustration from "../components/molecules/AuthIllustration";
@@ -13,6 +13,7 @@ import { generateGoogleOAuthUrl } from "../utils/oauth";
 const RegisterPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
   const {
     register,
     handleSubmit,
@@ -25,12 +26,14 @@ const RegisterPage = () => {
   const registerStatus = useSelector((state) => state.register.status);
   const registerError = useSelector((state) => state.register.error);
 
+  const redirectPath = location.state?.path || "/";
+
   useEffect(() => {
     if (registerStatus === "succeeded") {
-      navigate("/");
+      navigate(redirectPath, { replace: true });
       reset();
     }
-  }, [registerStatus, navigate, reset]);
+  }, [registerStatus, navigate, reset, redirectPath]);
 
   useEffect(() => {
     const errorMapper = {

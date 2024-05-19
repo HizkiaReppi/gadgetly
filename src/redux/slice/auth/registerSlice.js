@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { authInitialState } from "../../../utils/auth";
 import axios from "../../../utils/axios";
 
 export const registerUser = createAsyncThunk(
@@ -29,22 +30,7 @@ export const registerUser = createAsyncThunk(
 
 const registerSlice = createSlice({
   name: "register",
-  initialState: {
-    token: localStorage.getItem("token") || null,
-    refreshToken: localStorage.getItem("refresh_token") || null,
-    isAuthenticated: !!localStorage.getItem("token"),
-    status: "idle",
-    error: null,
-  },
-  reducers: {
-    logout: (state) => {
-      state.token = null;
-      state.refreshToken = null;
-      state.isAuthenticated = false;
-      localStorage.removeItem("token");
-      localStorage.removeItem("refresh_token");
-    },
-  },
+  initialState: authInitialState,
   extraReducers: (builder) => {
     builder
       .addCase(registerUser.pending, (state) => {
@@ -64,7 +50,5 @@ const registerSlice = createSlice({
       });
   },
 });
-
-export const { logout } = registerSlice.actions;
 
 export default registerSlice.reducer;

@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { logout } from "../redux/slice/auth/loginSlice";
+import { logout } from "../redux/slice/auth/logoutSlice";
 import Button from "../components/atoms/Button";
 
 const Homepage = () => {
