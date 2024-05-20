@@ -100,6 +100,7 @@ const LoginPage = () => {
             errors={errors?.password}
             required
           />
+          <Link to="/auth/forgot-password">Lupa Password?</Link>
           <Button type="submit" disabled={loginStatus === "loading"}>
             {loginStatus === "loading" && (
               <div role="status">
