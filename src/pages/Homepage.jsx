@@ -5,15 +5,15 @@ import Button from "../components/atoms/Button";
 const Homepage = () => {
   const dispatch = useDispatch();
 
-  const token = localStorage.getItem("token");
+  // const token = localStorage.getItem("token");
 
   const handleLogout = () => {
     dispatch(logout());
   };
 
-  if (!token) {
-    window.location.href = "/auth/login";
-  }
+  // if (!token) {
+  //   window.location.href = "/auth/login";
+  // }
 
   return (
     <div>
