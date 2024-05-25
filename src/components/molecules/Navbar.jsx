@@ -1,7 +1,7 @@
 /**
  * TODO:
  * - [refactor] Refactor the Navbar component in mobile view
- * - [fix] Fix and Integrate Backend Data 
+ * - [fix] Fix and Integrate Backend Data
  */
 
 import { useEffect, useState } from "react";
@@ -47,7 +47,7 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className="sticky left-0 top-0 z-50 flex items-center justify-between bg-white px-10 py-5 shadow md:px-16">
+    <nav className="sticky left-0 top-0 z-50 flex items-center justify-between bg-white px-10 py-5 shadow md:px-20 lg:px-28">
       <div className="flex items-center gap-5">
         <Link to="/">
           <img src={logoGadgetly} alt="Health Plus" className="w-[125px]" />

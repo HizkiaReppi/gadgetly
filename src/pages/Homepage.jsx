@@ -1,24 +1,12 @@
-import { useDispatch } from "react-redux";
-import { logout } from "../redux/slice/auth/logoutSlice";
-import Button from "../components/atoms/Button";
+import HeroHomepage from "../components/organisms/HeroHomepage";
+import FeaturedSection from "../components/organisms/FeaturedSection";
 
 const Homepage = () => {
-  const dispatch = useDispatch();
-
-  // const token = localStorage.getItem("token");
-
-  const handleLogout = () => {
-    dispatch(logout());
-  };
-
-  // if (!token) {
-  //   window.location.href = "/auth/login";
-  // }
-
   return (
-    <div>
-      <h1>Homepage</h1>
-      <Button onClick={handleLogout}>Logout</Button>
+    <div className="mx-10 md:mx-20 lg:mx-28">
+      <HeroHomepage />
+      <FeaturedSection />
+      <div className="mb-20" />
     </div>
   );
 };
