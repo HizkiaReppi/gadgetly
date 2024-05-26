@@ -8,7 +8,7 @@ import {
 
 const FeaturedSection = () => {
   return (
-    <section className="mt-10 grid grid-cols-2 place-content-center gap-8 md:grid-cols-4">
+    <section className="mt-10 grid grid-cols-2 place-content-center justify-items-center gap-6 md:gap-7 lg:gap-8 md:grid-cols-4">
       <Featured icon={<Guarantee />} text="Kualitas Terbaik" />
       <Featured icon={<HandHoldingDollar />} text="Garansi Terbaik" />
       <Featured icon={<Discount />} text="Penawaran & Diskon" />

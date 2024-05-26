@@ -3,7 +3,7 @@ import PicHeadline from "../../assets/homepage/pic-headline.png";
 
 const HeroHomepage = () => {
   return (
-    <section className="mt-16 flex h-full w-full flex-col items-center justify-between gap-10 rounded-[20px] bg-[#FFC047] px-10 py-20 shadow-lg md:flex-row">
+    <section className="mt-16 flex h-full w-full flex-col items-center justify-between gap-10 rounded-[20px] bg-[#FFC047] px-8 md:px-9 lg:px-10 py-14 md:py-17 lg:py-20 shadow-lg md:flex-row">
       <div>
         <h1 className="text-3xl leading-tight text-white md:text-4xl lg:text-5xl">
           Selamat Datang Di{" "}
