@@ -21,16 +21,16 @@ const ProductGallery = ({ images }) => {
 
   return (
     <div className="flex items-center justify-center">
-      <div className="relative flex">
+      <div className="relative flex flex-col md:flex-row">
         <img
           src={selectedImage}
           alt="Selected"
           className="h-[524px] w-[524px] rounded-[20px] border object-cover"
         />
-        <div className="ml-4 flex flex-col items-center justify-center gap-3">
+        <div className="ml-0 mt-4 flex flex-row items-center justify-center gap-3 md:ml-4 md:mt-0 md:flex-col">
           <button className="p-1" onClick={handlePrevImage}>
             <svg
-              className="h-6 w-6 hover:text-[#0060FF]"
+              className="hidden h-6 w-6 hover:text-[#0060FF] md:block"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -43,8 +43,22 @@ const ProductGallery = ({ images }) => {
                 d="M5 15l7-7 7 7"
               />
             </svg>
+            <svg
+              className="block h-6 w-6 hover:text-[#0060FF] md:hidden"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M15 19l-7-7 7-7"
+              />
+            </svg>
           </button>
-          <div id="thumbnails" className="flex flex-col gap-y-3">
+          <div id="thumbnails" className="flex flex-row gap-3 md:flex-col">
             {images.map((image, index) => (
               <img
                 key={index}
@@ -57,7 +71,7 @@ const ProductGallery = ({ images }) => {
           </div>
           <button className="p-1" onClick={handleNextImage}>
             <svg
-              className="h-6 w-6 hover:text-[#0060FF]"
+              className="hidden h-6 w-6 hover:text-[#0060FF] md:block"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -68,6 +82,20 @@ const ProductGallery = ({ images }) => {
                 strokeLinejoin="round"
                 strokeWidth={2}
                 d="M19 9l-7 7-7-7"
+              />
+            </svg>
+            <svg
+              className="block h-6 w-6 hover:text-[#0060FF] md:hidden"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 5l7 7-7 7"
               />
             </svg>
           </button>

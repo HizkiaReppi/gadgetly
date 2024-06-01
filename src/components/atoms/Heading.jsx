@@ -1,6 +1,6 @@
 const Heading = ({ text }) => {
   return (
-    <h3 className="text-center text-2xl font-semibold text-[#F8A709] md:text-3xl lg:text-4xl">
+    <h3 className="text-center text-3xl font-semibold text-[#F8A709] lg:text-4xl">
       {text}
     </h3>
   );

@@ -12,20 +12,20 @@ const BundleProduct = () => {
   return (
     <section className="mt-20 flex flex-col justify-center gap-12">
       <Heading text="Penawaran" />
-      <div className="flex justify-center gap-12">
+      <div className="flex flex-col justify-center gap-12 md:flex-row">
         <div className="bg-white p-9">
           <div className="flex items-center justify-end gap-3">
             <IconButton outline icon={<Heart pathFill="#f97316" />} />
             <IconButton icon={<Cart />} />
           </div>
           <div className="text-center">
-            <h6 className="mb-[18px] mt-4 text-2xl font-semibold text-black">
+            <h6 className="mb-[18px] mt-4 text-3xl font-medium text-black">
               Bundle <br /> Iphone 8 & 8 Plus
             </h6>
             <p className="text-xl font-medium text-gray-600">
               Silver & Gold <br /> 128 GB
             </p>
-            <p className="mb-9 mt-[34px] text-[22px] font-medium text-orange-500">
+            <p className="mb-[34px] mt-[33px] text-[22px] font-medium text-orange-500">
               Rp 4.000.000
             </p>
             <p className="mb-6 text-xl font-medium text-gray-600">
