@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import IconButton from "../atoms/IconButton";
 import { Cart, Heart } from "../atoms/icons";
+import { formatToRp } from "../../utils/format";
 
 const ProductCard = ({ name, image, price, id, variant }) => {
   return (
@@ -17,7 +18,7 @@ const ProductCard = ({ name, image, price, id, variant }) => {
         <p className="mt-[9px] text-xl font-medium text-gray-600">{variant}</p>
         <div className="mt-[26px] flex items-center justify-between">
           <p className="text-[22px] font-medium leading-6 text-orange-500">
-            {price}
+            {formatToRp(price)}
           </p>
           <div className="flex items-center gap-3">
             <IconButton outline icon={<Heart pathFill="#f97316" />} />

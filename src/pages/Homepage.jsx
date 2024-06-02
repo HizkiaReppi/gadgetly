@@ -3,6 +3,7 @@ import FeaturedSection from "../components/organisms/homepage/FeaturedSection";
 import LatestProduct from "../components/organisms/homepage/LatestProduct";
 import ProductByType from "../components/organisms/homepage/ProductByType";
 import BundleProduct from "../components/organisms/homepage/BundleProduct";
+import Promo from "../components/organisms/homepage/Promo";
 
 const Homepage = () => {
   return (
@@ -12,6 +13,7 @@ const Homepage = () => {
       <LatestProduct />
       <ProductByType />
       <BundleProduct />
+      <Promo />
       <div className="mb-20" />
     </div>
   );
