@@ -4,6 +4,7 @@ import { ToastContainer } from "react-toastify";
 
 import Loading from "./components/atoms/Loading";
 import Navbar from "./components/molecules/Navbar";
+import Footer from "./components/molecules/Footer";
 
 const Homepage = lazy(() => import("./pages/Homepage"));
 const Register = lazy(() => import("./pages/Register"));
@@ -37,6 +38,10 @@ export default function App() {
             <Route path="privacy-policy" element={<PrivacyPolicy />} />
           </Route>
         </Routes>
+        {location.pathname.includes("auth") ||
+        location.pathname.includes("legal") ? null : (
+          <Footer />
+        )}
       </Suspense>
       <ToastContainer />
     </>

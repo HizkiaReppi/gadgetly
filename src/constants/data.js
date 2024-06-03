@@ -55,3 +55,69 @@ export const testimonials = [
       "Berbelanja di Gadgetly sangat aman. Penjual juga sangat terpercaya dan barang sesuai. Saya jadi tidak ragu lagi dalam membeli HP bekas di Gadgetly",
   },
 ];
+
+export const footerLinks = [
+  {
+    title: "Navigasi",
+    links: [
+      {
+        title: "Halaman Utama",
+        href: "/",
+      },
+      {
+        title: "Tentang Kami",
+        href: "/about",
+      },
+      {
+        title: "Produk",
+        href: "/product",
+      },
+      {
+        title: "Kategori",
+        href: "/category",
+      },
+      {
+        title: "Cara Membeli",
+        href: "/how-to-buy",
+      },
+    ],
+  },
+  {
+    title: "Area Pelayanan",
+    links: [
+      {
+        title: "Jakarta",
+        href: "#",
+      },
+      {
+        title: "Bogor",
+        href: "#",
+      },
+      {
+        title: "Bandung",
+        href: "#",
+      },
+      {
+        title: "Medan",
+        href: "#",
+      },
+      {
+        title: "Manado",
+        href: "#",
+      },
+    ],
+  },
+  {
+    title: "Lainnya",
+    links: [
+      {
+        title: "Syarat & Ketentuan",
+        href: "/legal/terms-and-conditions",
+      },
+      {
+        title: "Kebijakan Privasi",
+        href: "/legal/privacy-policy",
+      },
+    ],
+  },
+];
