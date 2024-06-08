@@ -16,6 +16,7 @@ import NavLink from "../atoms/NavLink";
 import { CartIcon, HeartIcon, UserIcon } from "../atoms/icons";
 import { logout } from "../../redux/slice/auth/logoutSlice";
 import logoGadgetly from "../../assets/logo/logo-1-black.png";
+import useAuth from "../../hooks/useAuth";
 
 const Navbar = () => {
   const location = useLocation();
@@ -23,6 +24,8 @@ const Navbar = () => {
   const [nav, setNav] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const isAuthenticated = useSelector((state) => state.login.isAuthenticated);
+  const user = useAuth();
+  console.log(user);
 
   const handleClick = () => setNav(!nav);
 
@@ -111,17 +114,21 @@ const Navbar = () => {
                     <div className="flex items-center gap-3">
                       <div className="h-11 w-11 overflow-hidden rounded-full border border-black">
                         <img
-                          src="https://eu.ui-avatars.com/api/?name=HR&size=250"
-                          alt="Foto Profil HR"
+                          src={
+                            user?.photo
+                              ? user?.photo
+                              : `https://eu.ui-avatars.com/api/?name=${user?.name}&size=250`
+                          }
+                          alt={`Foto Profil ${user?.name}`}
                           className="h-full w-full rounded-full object-cover"
                         />
                       </div>
                       <div className="w-full flex-1 border-l border-gray-300 pl-3">
                         <p className="mb-1 break-words text-base font-semibold text-gray-700">
-                          Hizkia Reppi
+                          {user?.name}
                         </p>
                         <p className="w-full break-words pr-10 text-xs font-medium text-gray-700">
-                          hizkia@gmail.com
+                          {user?.email}
                         </p>
                       </div>
                     </div>

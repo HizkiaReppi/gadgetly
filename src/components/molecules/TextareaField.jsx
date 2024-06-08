@@ -1,9 +1,9 @@
 import Label from "../atoms/Label";
-import Input from "../atoms/Input";
+import Textarea from "../atoms/Textarea";
 import InputError from "../atoms/InputError";
 import InputPassword from "./InputPassword";
 
-const InputField = ({
+const TextareaField = ({
   label,
   type,
   name,
@@ -36,7 +36,7 @@ const InputField = ({
         placeholderWatch={placeholderWatch ? placeholderWatch : null}
       />
     ) : (
-      <Input
+      <Textarea
         type={type}
         placeholder={placeholder}
         name={name}
@@ -46,10 +46,10 @@ const InputField = ({
         register={register}
         errors={errors}
         required={required}
-      />
+      ></Textarea>
     )}
     <InputError error={errors?.message} />
   </div>
 );
 
-export default InputField;
+export default TextareaField;

@@ -12,6 +12,7 @@ const Login = lazy(() => import("./pages/Login"));
 const OAuthCallback = lazy(() => import("./pages/OAuthCallback"));
 const TermsAndConditions = lazy(() => import("./pages/TermsAndConditions"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
+const SellerProfile = lazy(() => import("./pages/sellers/Profile"));
 
 export default function App() {
   const location = useLocation();
@@ -29,6 +30,12 @@ export default function App() {
             <Route path="register" element={<Register />} />
             <Route path="login" element={<Login />} />
             <Route path="oauth/callback" element={<OAuthCallback />} />
+          </Route>
+          <Route path="sellers">
+            <Route
+              path="profile"
+              element={<SellerProfile />}
+            />
           </Route>
           <Route path="legal">
             <Route
