@@ -13,6 +13,7 @@ const TermsAndConditions = lazy(() => import("./pages/TermsAndConditions"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const SellerProfile = lazy(() => import("./pages/sellers/Profile"));
 const SellerAddProduct = lazy(() => import("./pages/sellers/AddProduct"));
+const DetailProduct = lazy(() => import("./pages/products/DetailProduct"));
 
 export default function App() {
   const location = useLocation();
@@ -26,6 +27,9 @@ export default function App() {
         )}
         <Routes>
           <Route path="/" element={<Homepage />} />
+          <Route path="products">
+            <Route path=":id" element={<DetailProduct />} />
+          </Route>
           <Route path="auth">
             <Route path="register" element={<Register />} />
             <Route path="login" element={<Login />} />

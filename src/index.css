@@ -24,6 +24,6 @@
      disabled:border-gray-200 disabled:text-gray-200 disabled:hover:text-gray-200;
   }
   .btn-normal {
-    @apply border-0 bg-primary-500 text-white hover:bg-primary-600 hover:text-white disabled:bg-gray-200 disabled:text-gray-400 disabled:hover:text-gray-400;
+    @apply border border-primary-500 bg-primary-500 text-white hover:border-primary-700 hover:bg-primary-600 hover:text-white disabled:bg-gray-200 disabled:text-gray-400 disabled:hover:text-gray-400;
   }
 }
