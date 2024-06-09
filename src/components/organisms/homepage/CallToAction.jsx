@@ -9,7 +9,7 @@ const CallToAction = () => {
         <h6 className="text-center text-2xl font-medium leading-9 text-gray-600">
           Klik tombol dibawah untuk menjual HP Bekas anda di Gadgetly
         </h6>
-        <Link to="/sellers/profile" className="btn btn-normal">
+        <Link to="/sellers/selling" className="btn btn-normal">
           Jual Sekarang
         </Link>
       </div>

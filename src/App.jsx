@@ -1,6 +1,5 @@
 import { lazy, Suspense } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
 
 import Loading from "./components/atoms/Loading";
 import Navbar from "./components/molecules/Navbar";
@@ -13,6 +12,7 @@ const OAuthCallback = lazy(() => import("./pages/OAuthCallback"));
 const TermsAndConditions = lazy(() => import("./pages/TermsAndConditions"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const SellerProfile = lazy(() => import("./pages/sellers/Profile"));
+const SellerAddProduct = lazy(() => import("./pages/sellers/AddProduct"));
 
 export default function App() {
   const location = useLocation();
@@ -32,10 +32,8 @@ export default function App() {
             <Route path="oauth/callback" element={<OAuthCallback />} />
           </Route>
           <Route path="sellers">
-            <Route
-              path="profile"
-              element={<SellerProfile />}
-            />
+            <Route path="profile" element={<SellerProfile />} />
+            <Route path="selling" element={<SellerAddProduct />} />
           </Route>
           <Route path="legal">
             <Route
@@ -50,7 +48,6 @@ export default function App() {
           <Footer />
         )}
       </Suspense>
-      <ToastContainer />
     </>
   );
 }

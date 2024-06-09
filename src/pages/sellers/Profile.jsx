@@ -1,21 +1,101 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate, useLocation } from "react-router-dom";
 import InputField from "../../components/molecules/InputField";
 import TextareaField from "../../components/molecules/TextareaField";
 import Button from "../../components/atoms/Button";
+import axios from "../../utils/axios";
+import useAuth from "../../hooks/useAuth";
+import { toast } from "react-toastify";
 
 const ProfileSeller = () => {
+  const user = useAuth(true);
+  const navigate = useNavigate();
+  const location = useLocation();
   const {
     register,
     handleSubmit,
-    // setError,
+    setError,
     formState: { errors },
-    // reset,
+    reset,
   } = useForm();
   const [isLoading, setIsLoading] = useState(false);
+  const [userProfile, setUserProfile] = useState({});
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const redirectPath = location.state?.path || "/sellers";
+
+  if (!user) {
+    navigate("/auth/login", {
+      state: {
+        path: location.pathname,
+      },
+      replace: true,
+    });
+  }
+
+  useEffect(() => {
+    const fetchSeller = async () => {
+      try {
+        const response = await axios.get(`/sellers/users/${user.id}`, {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        });
+
+        const responseData = response.data;
+        setUserProfile(responseData.data);
+        reset(responseData.data);
+      } catch (error) {
+        setUserProfile({});
+      }
+    };
+
+    fetchSeller();
+  }, [reset, user.id, user.token]);
+
+  const onSubmit = async (data) => {
+    setIsLoading(true);
+    try {
+      const res = await axios.post(`/sellers`, data, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
+      if (res.status === 201) {
+        navigate(redirectPath, { replace: true });
+        reset();
+      }
+    } catch (error) {
+      toast.error("Terjadi kesalahan!");
+      const errorMapper = {
+        Domisili: "domicile",
+        Alamat: "address",
+        Nomor: "phone",
+      };
+
+      if (error.response.data.data) {
+        const errorMessages = Array.isArray(error.response.data.data)
+          ? error.response.data.data
+          : [error.response.data.data];
+
+        errorMessages.forEach((errorMessage) => {
+          const errorKey = Object.keys(errorMapper).find((key) =>
+            errorMessage.includes(key),
+          );
+          const field = errorKey ? errorMapper[errorKey] : "password";
+
+          setError(field, {
+            type: "manual",
+            message: errorMessage,
+          });
+
+          toast.error(`Error di ${field}: ${errorMessage}`);
+        });
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -35,27 +115,29 @@ const ProfileSeller = () => {
             <InputField
               label="No HP"
               type="tel"
-              name="no_hp"
-              id="no_hp"
+              name="phone"
+              id="phone"
               placeholder="Nomor HP"
               minLength={10}
               maxLength={15}
               register={register}
-              errors={errors?.no_hp}
+              errors={errors?.phone}
               className="w-full"
+              defaultValue={userProfile.phone}
               required
             />
             <InputField
               label="Domisili"
               type="text"
-              name="domicilie"
-              id="domicilie"
+              name="domicile"
+              id="domicile"
               placeholder="Domisili"
-              minLength={3}
+              minLength={1}
               maxLength={255}
               register={register}
-              errors={errors?.domicilie}
+              errors={errors?.domicile}
               className="w-full"
+              defaultValue={userProfile.domicile}
               required
             />
           </div>
@@ -65,10 +147,11 @@ const ProfileSeller = () => {
             name="address"
             id="address"
             placeholder="Alamat Lengkap"
-            minLength={3}
+            minLength={1}
             maxLength={255}
             register={register}
             errors={errors?.address}
+            defaultValue={userProfile.address}
             required
           />
           <Button type="submit" disabled={isLoading}>
@@ -93,7 +176,9 @@ const ProfileSeller = () => {
                 <span className="sr-only">Loading...</span>
               </div>
             )}
-            {isLoading === "loading" ? "Sedang Masuk..." : "Masuk Sekarang"}
+            {isLoading === "loading"
+              ? "Melengkapi Profil..."
+              : "Lengkapi Profil"}
           </Button>
         </form>
       </div>

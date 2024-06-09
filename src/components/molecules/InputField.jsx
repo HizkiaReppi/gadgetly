@@ -17,6 +17,7 @@ const InputField = ({
   watch,
   placeholderWatch,
   className,
+  defaultValue,
 }) => (
   <div className={className}>
     <Label htmlFor={id} className="mb-1.5">
@@ -46,6 +47,7 @@ const InputField = ({
         register={register}
         errors={errors}
         required={required}
+        defaultValue={defaultValue}
       />
     )}
     <InputError error={errors?.message} />

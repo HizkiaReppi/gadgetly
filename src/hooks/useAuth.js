@@ -1,4 +1,6 @@
 import { jwtDecode } from "jwt-decode";
+import { useSelector } from "react-redux";
+import { useNavigate, useLocation } from "react-router-dom";
 
 /**
  * Custom hook to decode JWT token from localStorage and redirect to login if accessing a protected route without a token.
@@ -7,14 +9,25 @@ import { jwtDecode } from "jwt-decode";
  * @returns {object|null} Decoded token object if token exists, otherwise null.
  */
 const useAuth = (protectedRoute = false) => {
-  const token = localStorage.getItem("token");
+  const navigate = useNavigate();
+  const location = useLocation();
+  const token = useSelector((state) => state.login.token);
 
   if (protectedRoute && !token) {
-    window.location.replace("/login");
-    return null;
+    navigate("/auth/login", {
+      state: {
+        path: location.pathname,
+      },
+      replace: true,
+    });
   }
 
-  return token ? jwtDecode(token) : null;
+  if (token) {
+    const user = jwtDecode(token);
+    return { ...user, token };
+  } else {
+    return null;
+  }
 };
 
 export default useAuth;
