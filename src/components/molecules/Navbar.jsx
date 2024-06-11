@@ -101,7 +101,9 @@ const Navbar = () => {
         ) : (
           <div className="flex items-center gap-4">
             <HeartIcon className="w-[35px] cursor-pointer" />
-            <CartIcon className="w-[35px] cursor-pointer" />
+            <Link to="/cart">
+              <CartIcon className="w-[35px] cursor-pointer" />
+            </Link>
             <div className="relative">
               <UserIcon
                 className="w-[26px] cursor-pointer"

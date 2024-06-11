@@ -22,7 +22,7 @@ const DetailProduct = () => {
   ];
 
   return (
-    <div className="mx-10 my-10 md:mx-20 lg:mx-28">
+    <section className="mx-10 my-10 md:mx-20 lg:mx-28">
       <Breadcrumb items={breadcrumbItems} />
       <section className="flex flex-col items-center justify-between gap-14 lg:flex-row">
         <div>
@@ -83,7 +83,7 @@ const DetailProduct = () => {
           <h5 className="mb-[18px] text-lg font-medium leading-9 md:text-xl lg:text-2xl">
             Deskripsi Produk
           </h5>
-          <div className="text-justify text-base leading-10 md:text-lg lg:text-xl">
+          <div className="text-justify text-base leading-loose md:text-lg lg:text-xl">
             IPhone X adalah ponsel pintar yang dirancang, dikembangkan, dan
             dipasarkan oleh Apple. Ini adalah bagian dari iPhone generasi ke-11.
             Ini dirilis pada 3 November 2017. Ini adalah penerus dari iPhone 8
@@ -192,7 +192,7 @@ const DetailProduct = () => {
       <section className="mt-24">
         <SimilarProduct />
       </section>
-    </div>
+    </section>
   );
 };
 
