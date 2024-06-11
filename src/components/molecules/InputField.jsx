@@ -18,9 +18,12 @@ const InputField = ({
   placeholderWatch,
   className,
   defaultValue,
+  onChange,
+  inputClassName,
+  labelClassName,
 }) => (
   <div className={className}>
-    <Label htmlFor={id} className="mb-1.5">
+    <Label htmlFor={id} className={`mb-1.5 ${labelClassName}`}>
       {label}
     </Label>
     {type === "password" ? (
@@ -35,6 +38,7 @@ const InputField = ({
         required={required}
         watch={watch ? watch : null}
         placeholderWatch={placeholderWatch ? placeholderWatch : null}
+        onChange={onChange ? onChange : null}
       />
     ) : (
       <Input
@@ -48,6 +52,8 @@ const InputField = ({
         errors={errors}
         required={required}
         defaultValue={defaultValue}
+        onChange={onChange ? onChange : null}
+        className={inputClassName}
       />
     )}
     <InputError error={errors?.message} />

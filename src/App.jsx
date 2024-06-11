@@ -15,6 +15,9 @@ const SellerProfile = lazy(() => import("./pages/sellers/Profile"));
 const SellerAddProduct = lazy(() => import("./pages/sellers/AddProduct"));
 const DetailProduct = lazy(() => import("./pages/products/DetailProduct"));
 const Cart = lazy(() => import("./pages/products/Cart"));
+const ShippingInformation = lazy(
+  () => import("./pages/checkout/ShippingInformation"),
+);
 
 export default function App() {
   const location = useLocation();
@@ -29,6 +32,12 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Homepage />} />
           <Route path="cart" element={<Cart />} />
+          <Route path="checkout">
+            <Route
+              path="shipping-information"
+              element={<ShippingInformation />}
+            />
+          </Route>
           <Route path="products">
             <Route path=":id" element={<DetailProduct />} />
           </Route>

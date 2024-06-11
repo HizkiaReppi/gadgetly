@@ -362,7 +362,6 @@ const AddProduct = () => {
           </div>
           <TextareaField
             label="Deskripsi Produk (Opsional)"
-            type="text"
             name="description"
             id="description"
             placeholder="Deskripsi Produk"

@@ -23,7 +23,7 @@ const Textarea = ({
     <textarea
       className={clsx(
         `
-        block w-full rounded-md border-2 border-gray-300 bg-transparent p-2.5 px-6 py-2.5 text-sm text-black placeholder:text-gray-500 focus:border-primary-500 focus:ring-primary-500 lg:px-[30px] lg:py-[15px] lg:text-base ${errors ? "border-red-500 text-red-500" : ""}`,
+        block w-full rounded-md border-2 border-gray-300 bg-transparent p-2.5 px-6 py-2.5 text-sm text-black placeholder:text-gray-500 focus:border-primary-500 focus:ring-primary-500 disabled:bg-gray-100 disabled:text-gray-300 lg:px-[30px] lg:py-[15px] lg:text-base ${errors ? "border-red-500 text-red-500" : ""}`,
         className,
       )}
       name={name}

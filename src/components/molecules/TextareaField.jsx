@@ -1,11 +1,9 @@
 import Label from "../atoms/Label";
 import Textarea from "../atoms/Textarea";
 import InputError from "../atoms/InputError";
-import InputPassword from "./InputPassword";
 
 const TextareaField = ({
   label,
-  type,
   name,
   id,
   placeholder,
@@ -14,40 +12,26 @@ const TextareaField = ({
   register,
   errors,
   required,
-  watch,
-  placeholderWatch,
   className,
+  textareaClassName,
+  disabled,
 }) => (
   <div className={className}>
     <Label htmlFor={id} className="mb-1.5">
       {label}
     </Label>
-    {type === "password" ? (
-      <InputPassword
-        name={name}
-        id={id}
-        placeholder={placeholder}
-        minLength={minLength}
-        maxLength={maxLength}
-        register={register}
-        errors={errors}
-        required={required}
-        watch={watch ? watch : null}
-        placeholderWatch={placeholderWatch ? placeholderWatch : null}
-      />
-    ) : (
-      <Textarea
-        type={type}
-        placeholder={placeholder}
-        name={name}
-        id={id}
-        minLength={minLength}
-        maxLength={maxLength}
-        register={register}
-        errors={errors}
-        required={required}
-      ></Textarea>
-    )}
+    <Textarea
+      placeholder={placeholder}
+      name={name}
+      id={id}
+      minLength={minLength}
+      maxLength={maxLength}
+      register={register}
+      errors={errors}
+      required={required}
+      disabled={disabled}
+      className={textareaClassName}
+    ></Textarea>
     <InputError error={errors?.message} />
   </div>
 );

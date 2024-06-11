@@ -1,4 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import {
   toggleProduct,
   removeProduct,
@@ -14,6 +15,7 @@ import SimilarProduct from "../../components/organisms/product/SimilarProduct";
 const Cart = () => {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.cart.products);
+  const navigate = useNavigate()
 
   const subtotal = products
     .filter((product) => product.checked)
@@ -26,6 +28,8 @@ const Cart = () => {
 
     // Simpan di local storage
     localStorage.setItem("checkoutProducts", JSON.stringify(checkedProducts));
+
+    navigate("/checkout/shipping-information", { replace: true });
   };
 
   const breadcrumbItems = [
