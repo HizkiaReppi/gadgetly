@@ -18,7 +18,7 @@ const Promo = () => {
             Black 128GB
           </p>
           <p className="mb-8 mt-7 text-center text-[22px] font-medium leading-6 text-orange-500">
-            {formatToRp(600_000_000)}
+            {formatToRp(8_000_000)}
           </p>
           <div className="text-center">
             <Button>Beli Sekarang</Button>

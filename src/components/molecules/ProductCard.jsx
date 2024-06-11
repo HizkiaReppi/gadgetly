@@ -8,7 +8,11 @@ const ProductCard = ({ name, image, price, id, variant }) => {
     <div className="inline-block rounded-[10px] bg-white p-[18px] shadow">
       <div className="h-[346.364px] w-[346.364px] rounded-[10px] border border-gray-300">
         <Link to={`/products/${id}`}>
-          <img src={image} alt={`Product ${name} Image`} />
+          <img
+            src={image}
+            alt={`Product ${name} Image`}
+            className="h-full w-full rounded-[10px] object-cover"
+          />
         </Link>
       </div>
       <div className="mt-3">
