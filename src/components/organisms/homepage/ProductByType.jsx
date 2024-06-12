@@ -43,9 +43,6 @@ const ProductByType = () => {
     }
   }, [selectedBrand]);
 
-  console.log(brands);
-  console.log(selectedBrand);
-  console.log(products);
   return (
     <section className="mt-20">
       <Heading text="Produk Sesuai Merek" />

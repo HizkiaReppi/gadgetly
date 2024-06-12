@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { IoMdCheckmark } from "react-icons/io";
 import { Cart, Heart } from "../../components/atoms/icons";
@@ -7,33 +8,62 @@ import IconButton from "../../components/atoms/IconButton";
 import ProductGallery from "../../components/molecules/ProductGallery";
 import WarrantyOptions from "../../components/organisms/product/WarrantyOptions";
 import ServicePolicy from "../../components/organisms/product/ServicePolicy";
-import productImage from "../../assets/homepage/product-image.png";
-import productBundleImage from "../../assets/homepage/product-bundle.jpeg";
 import SimilarProduct from "../../components/organisms/product/SimilarProduct";
-
-const images = [productImage, productBundleImage];
+import axios from "../../utils/axios";
+import { formatToRp, toCapitalizeCase, diffForHuman } from "../../utils/format";
 
 const DetailProduct = () => {
   const { id } = useParams();
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   const breadcrumbItems = [
     { label: "Beranda", to: "/" },
     { label: "Product", to: "/products" },
-    { label: "Apple iPhone X", to: null },
+    { label: product?.title, to: null },
   ];
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const productResponse = await axios.get(`/products/${id}`);
+        const productData = productResponse.data.data;
+        setProduct(productData);
+      } catch (err) {
+        setError(err.message || "Something went wrong");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [id]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  const imagesData = product.images
+    ? product.images.map((image) => image.image_url)
+    : [];
 
   return (
     <section className="mx-10 my-10 md:mx-20 lg:mx-28">
       <Breadcrumb items={breadcrumbItems} />
       <section className="flex flex-col items-center justify-between gap-14 lg:flex-row">
-        <div>
-          <ProductGallery images={images} />
-        </div>
+        <ProductGallery images={imagesData.slice(0, 5)} />
         <div>
           <h1 className="text-3xl font-semibold leading-[54px] text-black lg:text-4xl">
-            Apple iPhone X
+            {product.title}
           </h1>
           <div className="mt-5 text-xl font-medium text-gray-800 lg:text-2xl">
-            Silver | 256GB | Ram 8GB
+            {product.color} | {product.storage} | Ram {product.ram}
           </div>
           <div className="mt-5 flex items-center gap-2 text-base text-gray-700 md:mt-7 md:gap-3 md:text-lg lg:mt-9 lg:gap-4 lg:text-xl">
             <div className="inline-flex items-center gap-1.5 leading-[21px]">
@@ -47,7 +77,7 @@ const DetailProduct = () => {
             </div>
           </div>
           <div className="mt-6 text-3xl font-semibold leading-normal tracking-wide text-orange-500 md:mt-8 md:text-4xl lg:mt-10 lg:text-[40px]">
-            Rp. 3.200.000
+            {formatToRp(product.price)}
           </div>
           <hr className="mt-[31px] w-full border-2 border-gray-300" />
           <div className="mt-6">
@@ -59,22 +89,15 @@ const DetailProduct = () => {
                 Pelajari
               </div>
             </div>
-
-            <div className="mt-4">
-              <WarrantyOptions />
-            </div>
+            <WarrantyOptions />
           </div>
           <div className="mt-7 flex flex-wrap gap-4">
-            <IconButton
-              className="flex lg:inline-flex"
-              outline
-              icon={<Heart pathFill="#f97316" />}
-            />
-            <Button outline className="flex lg:inline-flex lg:px-7">
+            <IconButton outline icon={<Heart pathFill="#f97316" />} />
+            <Button outline className="lg:px-7">
               <Cart pathFill="#f97316" />
               Tambahkan Keranjang
             </Button>
-            <Button className="flex lg:inline-flex lg:px-7">Beli</Button>
+            <Button className="lg:px-7">Beli</Button>
           </div>
         </div>
       </section>
@@ -84,28 +107,7 @@ const DetailProduct = () => {
             Deskripsi Produk
           </h5>
           <div className="text-justify text-base leading-loose md:text-lg lg:text-xl">
-            IPhone X adalah ponsel pintar yang dirancang, dikembangkan, dan
-            dipasarkan oleh Apple. Ini adalah bagian dari iPhone generasi ke-11.
-            Ini dirilis pada 3 November 2017. Ini adalah penerus dari iPhone 8
-            dan iPhone 8 Plus. IPhone X adalah ponsel pertama Apple yang
-            memiliki layar OLED. Ini memiliki layar 5,8 inci dengan resolusi
-            2436 x 1125 piksel. Ini memiliki rasio kontras 1.000.000:1 dan
-            kecerahan hingga 625 nits. IPhone X memiliki desain yang berbeda
-            dari iPhone sebelumnya. Ini memiliki layar yang hampir tanpa
-            bingkai. Ini memiliki kamera ganda di bagian belakang. Kamera ini
-            memiliki dua lensa 12 MP. Satu lensa adalah lensa wide-angle dan
-            yang lainnya adalah lensa telephoto. Kamera ini memiliki fitur
-            seperti zoom optik 2x, zoom digital hingga 10x, dan mode potret.
-            IPhone X memiliki kamera depan 7 MP. Ini memiliki fitur seperti mode
-            potret, pencahayaan potret, dan animoji. IPhone X memiliki chip A11
-            Bionic. Ini adalah chip pertama yang memiliki unit pemrosesan
-            neural. Ini memiliki dua inti performa dan empat inti efisiensi.
-            IPhone X memiliki dua pilihan penyimpanan internal: 64 GB dan 256
-            GB. IPhone X memiliki dua pilihan warna: Space Gray dan Silver.
-            IPhone X memiliki baterai 2716 mAh. Ini memiliki fitur pengisian
-            cepat dan pengisian nirkabel. IPhone X menjalankan iOS 11. IPhone X
-            mendukung Face ID. Ini adalah sistem pengenalan wajah yang digunakan
-            untuk membuka kunci ponsel.
+            {product.description}
           </div>
         </div>
         <hr className="block w-full border-2 border-gray-300 lg:hidden" />
@@ -122,22 +124,22 @@ const DetailProduct = () => {
                   <tr>
                     <td className="w-48 align-top">Warna</td>
                     <td className="w-6 align-top">:</td>
-                    <td>Silver</td>
+                    <td>{product.color}</td>
                   </tr>
                   <tr>
                     <td className="w-48 align-top">Penyimpanan</td>
                     <td className="w-6 align-top">:</td>
-                    <td>256GB</td>
+                    <td>{product.storage}</td>
                   </tr>
                   <tr>
                     <td className="w-48 align-top">RAM</td>
                     <td className="w-6 align-top">:</td>
-                    <td>8GB</td>
+                    <td>{product.ram}</td>
                   </tr>
                   <tr>
                     <td className="w-48 align-top">Kondisi Gadget</td>
                     <td className="w-6 align-top">:</td>
-                    <td>Normal</td>
+                    <td>{toCapitalizeCase(product.condition)}</td>
                   </tr>
                 </tbody>
               </table>
@@ -153,35 +155,41 @@ const DetailProduct = () => {
                   <tr>
                     <td className="w-48 align-top">Nama Lengkap</td>
                     <td className="w-6 align-top">:</td>
-                    <td>Hizkia Jefren Reppi</td>
+                    <td>{product?.seller?.user?.name}</td>
                   </tr>
                   <tr>
                     <td className="w-48 align-top">Nomor Telepon</td>
                     <td className="w-6 align-top">:</td>
-                    <td>08234567890</td>
+                    <td>
+                      <a
+                        href={`tel:${product?.seller?.phone}`}
+                        className="text-black"
+                      >
+                        {product?.seller?.phone}
+                      </a>
+                    </td>
                   </tr>
                   <tr>
                     <td className="w-48 align-top">Domisili</td>
                     <td className="w-6 align-top">:</td>
-                    <td>Minahasa</td>
+                    <td>{product?.seller?.domicile}</td>
                   </tr>
                   <tr>
                     <td className="w-48 align-top">Terakhir Login</td>
                     <td className="w-6 align-top">:</td>
-                    <td>3 Menit Yang Lalu</td>
+                    <td>{diffForHuman(product?.seller?.user?.last_login)}</td>
                   </tr>
                   <tr>
                     <td className="w-48 align-top">Jumlah Produk</td>
                     <td className="w-6 align-top">:</td>
-                    <td>2 Produk Yang Dijual</td>
+                    <td>
+                      {product?.seller?.Product?.length} Produk Yang Dijual
+                    </td>
                   </tr>
                   <tr>
                     <td className="w-48 align-top">Alamat Lengkap</td>
                     <td className="w-6 align-top">:</td>
-                    <td>
-                      Langowan Selatan, Kabupaten Minahasa, Provinsi Sulawesi
-                      Utara
-                    </td>
+                    <td>{product?.seller?.address}</td>
                   </tr>
                 </tbody>
               </table>
@@ -189,9 +197,11 @@ const DetailProduct = () => {
           </section>
         </div>
       </section>
-      <section className="mt-24">
-        <SimilarProduct />
-      </section>
+      {product?.seller?.Product && (
+        <section className="mt-24">
+          <SimilarProduct products={product?.seller?.Product?.slice(0, 3)} />
+        </section>
+      )}
     </section>
   );
 };
