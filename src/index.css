@@ -26,4 +26,13 @@
   .btn-normal {
     @apply border border-primary-500 bg-primary-500 text-white hover:border-primary-700 hover:bg-primary-600 hover:text-white disabled:bg-gray-200 disabled:text-gray-400 disabled:hover:text-gray-400;
   }
+  .badge-default {
+    @apply inline-block rounded border border-blue-400 bg-blue-100 px-2.5 py-1 text-center text-sm font-medium text-blue-800 md:text-base;
+  }
+  .badge-yellow {
+    @apply inline-block rounded border border-yellow-300 bg-yellow-100 px-2.5 py-1 text-center text-sm font-medium text-yellow-800 md:text-base;
+  }
+  .badge-green {
+    @apply inline-block rounded border border-green-400 bg-green-100 px-2.5 py-1 text-center text-sm font-medium text-green-800 md:text-base;
+  }
 }
