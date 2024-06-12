@@ -46,10 +46,6 @@ const Cart = () => {
     .filter((product) => product.checked)
     .reduce((acc, product) => acc + Number(product.price), 0);
 
-  console.log(dataProducts);
-  console.log(products);
-  console.log(similarProduct);
-
   const handleCheckout = () => {
     dispatch(checkout());
     const checkedProducts = products.filter((product) => product.checked);

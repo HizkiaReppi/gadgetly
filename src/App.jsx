@@ -18,6 +18,9 @@ const Cart = lazy(() => import("./pages/products/Cart"));
 const ShippingInformation = lazy(
   () => import("./pages/checkout/ShippingInformation"),
 );
+const CheckoutConfirmation = lazy(
+  () => import("./pages/checkout/CheckoutConfirmation"),
+);
 
 export default function App() {
   const location = useLocation();
@@ -37,6 +40,7 @@ export default function App() {
               path="shipping-information"
               element={<ShippingInformation />}
             />
+            <Route path="confirmation" element={<CheckoutConfirmation />} />
           </Route>
           <Route path="products">
             <Route path=":id" element={<DetailProduct />} />

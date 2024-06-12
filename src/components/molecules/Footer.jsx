@@ -98,7 +98,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="mt-10 border-t border-t-white pt-8 text-center text-xs md:text-base">
-          <p>&copy; Copyright 2024 - HealthPlus | Dikembangkan oleh 7Teen </p>
+          <p>&copy; Copyright 2024 - Gadgetly | Dikembangkan oleh 7Teen </p>
         </div>
       </div>
     </footer>
