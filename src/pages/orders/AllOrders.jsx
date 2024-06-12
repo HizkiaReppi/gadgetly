@@ -70,7 +70,7 @@ const AllOrders = () => {
                   <p className="badge-green">Selesai</p>
                 </td>
                 <td className="text-center">
-                  <Link to={`orders/1`}>
+                  <Link to={`/orders/1`}>
                     <IconButton icon={<FaEye className="text-xl" />} />
                   </Link>
                 </td>
@@ -109,7 +109,7 @@ const AllOrders = () => {
                   <p className="badge-yellow">Sedang Dikirim</p>
                 </td>
                 <td className="text-center">
-                  <Link to={`orders/1`}>
+                  <Link to={`/orders/1`}>
                     <IconButton icon={<FaEye className="text-xl" />} />
                   </Link>
                 </td>

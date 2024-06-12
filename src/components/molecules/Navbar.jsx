@@ -140,6 +140,12 @@ const Navbar = () => {
                     >
                       Profil
                     </Link>
+                    <Link
+                      to="/orders"
+                      className="mt-2 btn btn-outline w-full px-14 text-sm"
+                    >
+                      Pesanan
+                    </Link>
                     <Button
                       onClick={handleLogout}
                       className="mt-2 w-full bg-red-600 hover:bg-red-700 lg:text-sm"

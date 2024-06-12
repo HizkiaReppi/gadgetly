@@ -22,6 +22,7 @@ const CheckoutConfirmation = lazy(
   () => import("./pages/checkout/CheckoutConfirmation"),
 );
 const AllOrders = lazy(() => import("./pages/orders/AllOrders"));
+const DetailOrder = lazy(() => import("./pages/orders/DetailOrder"));
 
 export default function App() {
   const location = useLocation();
@@ -38,6 +39,7 @@ export default function App() {
           <Route path="cart" element={<Cart />} />
           <Route path="orders">
             <Route path="" element={<AllOrders />} />
+            <Route path=":id" element={<DetailOrder />} />
           </Route>
           <Route path="checkout">
             <Route
