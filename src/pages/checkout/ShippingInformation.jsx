@@ -1,5 +1,8 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { addShippingInfo } from "../../redux/slice/checkoutSlice";
 import Button from "../../components/atoms/Button";
 import Breadcrumb from "../../components/atoms/Breadcrumb";
 import ProfileInformation from "../../components/organisms/checkout/ProfileInformation";
@@ -9,6 +12,8 @@ import ShippingMethod from "../../components/organisms/checkout/ShippingMethod";
 const ShippingInformation = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { register, handleSubmit, setValue, control } = useForm();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const breadcrumbItems = [
     { label: "Beranda", to: "/" },
@@ -17,7 +22,15 @@ const ShippingInformation = () => {
   ];
 
   const onSubmit = (data) => {
-    console.log(data);
+    setIsLoading(true);
+    try {
+      dispatch(addShippingInfo(data));
+      navigate("/checkout/confirmation", { replace: true });
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (

@@ -1,9 +1,65 @@
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import Breadcrumb from "../../components/atoms/Breadcrumb";
 import { formatToRp, toCapitalizeCase } from "../../utils/format";
 import productImage from "../../assets/homepage/product-image.png";
 import Button from "../../components/atoms/Button";
+import axios from "../../utils/axios";
 
 const CheckoutConfirmation = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [address, setAddress] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState("");
+  const [postage, setPostage] = useState(0);
+  const [products, setProducts] = useState([]);
+  const checkoutData = useSelector((state) => state.checkout.checkoutData);
+  const shippingInfo = useSelector((state) => state.checkout.shippingInfo);
+  const ids = checkoutData.map((product) => product.id);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await axios.post("/products/find-by-ids", { ids });
+      const data = response.data;
+      setProducts(data.data);
+    };
+
+    fetchData();
+  }, [checkoutData]);
+
+  console.log(shippingInfo);
+  console.log(checkoutData);
+  console.log(products);
+
+  useEffect(() => {
+    const addressData =
+      shippingInfo[0].street +
+      " (" +
+      shippingInfo[0].other_detail +
+      "), " +
+      shippingInfo[0].village.label +
+      ", " +
+      shippingInfo[0].district.label +
+      ", " +
+      shippingInfo[0].regency.label +
+      ", " +
+      shippingInfo[0].province.label;
+
+    setAddress(addressData);
+  }, []);
+
+  const subtotal = checkoutData
+    .filter((product) => product.checked)
+    .reduce((acc, product) => acc + Number(product.price), 0);
+
+  const total = Number(subtotal) + Number(postage) + 3000;
+
+  const handlePaymentChange = (method, postageCost) => {
+    setPaymentMethod(method);
+    setPostage(postageCost);
+  };
+
   const breadcrumbItems = [
     { label: "Beranda", to: "/" },
     { label: "Checkout", to: null },
@@ -34,60 +90,42 @@ const CheckoutConfirmation = () => {
                 </tr>
               </thead>
               <tbody>
-                <tr className="border-b">
-                  <td className="flex flex-col items-center gap-2 p-2 md:flex-row md:gap-3 lg:gap-5">
-                    <img
-                      src={productImage}
-                      alt="IPhone X"
-                      className="h-40 w-40 object-cover"
-                    />
-                    <div className="flex flex-col gap-2">
-                      <h2 className="text-lg font-semibold md:text-xl lg:text-2xl">
-                        IPhone X
-                      </h2>
-                      <p className="text-sm font-medium text-gray-500 md:text-base lg:text-lg">
-                        {toCapitalizeCase("Blue")} | 128GB | RAM 8GB
-                      </p>
-                      <p className="text-sm font-medium text-gray-500 lg:text-base">
-                        Berfungsi Dengan Baik | Produk Lengkap | Kondisi{" "}
-                        {toCapitalizeCase("NORMAL")} | Garansi 30 Hari
-                      </p>
-                      <p className="mt-2 text-base font-semibold md:hidden">
-                        Harga: {formatToRp(5000000)}
-                      </p>
-                    </div>
-                  </td>
-                  <td className="my-auto hidden h-full items-center p-2 text-center text-base font-medium md:table-cell md:text-lg lg:text-xl">
-                    {formatToRp(5000000)}
-                  </td>
-                </tr>
-                <tr className="border-b">
-                  <td className="flex flex-col items-center gap-2 p-2 md:flex-row md:gap-3 lg:gap-5">
-                    <img
-                      src={productImage}
-                      alt="IPhone X"
-                      className="h-40 w-40 object-cover"
-                    />
-                    <div className="flex flex-col gap-2">
-                      <h2 className="text-lg font-semibold md:text-xl lg:text-2xl">
-                        IPhone X
-                      </h2>
-                      <p className="text-sm font-medium text-gray-500 md:text-base lg:text-lg">
-                        {toCapitalizeCase("Blue")} | 128GB | RAM 8GB
-                      </p>
-                      <p className="text-sm font-medium text-gray-500 lg:text-base">
-                        Berfungsi Dengan Baik | Produk Lengkap | Kondisi{" "}
-                        {toCapitalizeCase("NORMAL")} | Garansi 30 Hari
-                      </p>
-                      <p className="mt-2 text-base font-semibold md:hidden">
-                        Harga: {formatToRp(5000000)}
-                      </p>
-                    </div>
-                  </td>
-                  <td className="my-auto hidden h-full items-center p-2 text-center text-base font-medium md:table-cell md:text-lg lg:text-xl">
-                    {formatToRp(5000000)}
-                  </td>
-                </tr>
+                {products.map((product) => {
+                  product.warranty = checkoutData.find(
+                    (data) => data.id === product.id,
+                  ).warranty;
+                  return (
+                    <tr key={product.id} className="border-b">
+                      <td className="flex flex-col items-center gap-2 p-2 md:flex-row md:gap-3 lg:gap-5">
+                        <img
+                          src={product.images}
+                          alt={product.title}
+                          className="h-40 w-40 rounded object-cover"
+                        />
+                        <div className="flex flex-col gap-2">
+                          <h2 className="text-lg font-semibold md:text-xl lg:text-2xl">
+                            {product.title}
+                          </h2>
+                          <p className="text-sm font-medium text-gray-500 md:text-base lg:text-lg">
+                            {toCapitalizeCase(product.color)} |{" "}
+                            {product.storage} | RAM {product.ram}
+                          </p>
+                          <p className="text-sm font-medium text-gray-500 lg:text-base">
+                            Berfungsi Dengan Baik | Produk Lengkap | Kondisi{" "}
+                            {toCapitalizeCase(product.condition)} | Garansi{" "}
+                            {product.warranty ? "6 Bulan" : "30 Hari"}
+                          </p>
+                          <p className="mt-2 text-base font-semibold md:hidden">
+                            Harga: {formatToRp(product.price)}
+                          </p>
+                        </div>
+                      </td>
+                      <td className="my-auto hidden h-full items-center p-2 text-center text-base font-medium md:table-cell md:text-lg lg:text-xl">
+                        {formatToRp(product.price)}
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
@@ -105,6 +143,10 @@ const CheckoutConfirmation = () => {
                   id="cash_on_delivery"
                   value="cash_on_delivery"
                   className="peer hidden"
+                  checked={paymentMethod === "cash_on_delivery"}
+                  onChange={() =>
+                    handlePaymentChange("cash_on_delivery", 15000)
+                  }
                   required
                 />
                 <label
@@ -130,6 +172,8 @@ const CheckoutConfirmation = () => {
                   id="cod_cek_dulu"
                   value="cod_cek_dulu"
                   className="peer hidden"
+                  checked={paymentMethod === "cod_cek_dulu"}
+                  onChange={() => handlePaymentChange("cod_cek_dulu", 30000)}
                   required
                 />
                 <label
@@ -164,13 +208,7 @@ const CheckoutConfirmation = () => {
               <div>
                 <h4 className="text-lg font-medium">Alamat Pengiriman</h4>
                 <div className="mt-2">
-                  <p className="leading-loose">
-                    Jurusan PTIK, Universitas Negeri Manado. Minahasa, Provinsi
-                    Sulawesi Utara
-                  </p>
-                  <p className="leading-loose">
-                    Detail Lainnya: Ruangan Lab RPL
-                  </p>
+                  <p className="leading-loose">{address}</p>
                 </div>
                 <h4 className="mt-5 text-lg font-medium">Detail Pengiriman</h4>
                 <div className="mt-2">
@@ -179,12 +217,18 @@ const CheckoutConfirmation = () => {
                       <tr className="py-5">
                         <td className="py-1.5">Metode Pengiriman</td>
                         <td className="px-3 py-1.5">:</td>
-                        <td className="py-1.5">JNE REG</td>
+                        <td className="py-1.5">
+                          {shippingInfo[0].shipping_method.toUpperCase()}
+                        </td>
                       </tr>
                       <tr>
                         <td className="py-1.5">Metode Pembayaran</td>
                         <td className="px-3 py-1.5">:</td>
-                        <td className="py-1.5">Cash On Delivery</td>
+                        <td className="py-1.5">
+                          {toCapitalizeCase(
+                            paymentMethod.split("_").join(" "),
+                          ) || "-"}
+                        </td>
                       </tr>
                       <tr>
                         <td className="py-1.5">Estimasi Dikirim Penjual</td>
@@ -194,7 +238,7 @@ const CheckoutConfirmation = () => {
                       <tr>
                         <td className="py-1.5">Ongkos Kirim</td>
                         <td className="px-3 py-1.5">:</td>
-                        <td className="py-1.5">{formatToRp(150000)}</td>
+                        <td className="py-1.5">{formatToRp(postage) || "-"}</td>
                       </tr>
                     </tbody>
                   </table>
@@ -209,12 +253,12 @@ const CheckoutConfirmation = () => {
                     <tr>
                       <td className="py-1.5">Sub-total produk</td>
                       <td className="px-3 py-1.5">:</td>
-                      <td className="py-1.5">{formatToRp(1000000)}</td>
+                      <td className="py-1.5">{formatToRp(subtotal)}</td>
                     </tr>
                     <tr>
                       <td className="py-1.5">Ongkos Kirim</td>
                       <td className="px-3 py-1.5">:</td>
-                      <td className="py-1.5">{formatToRp(15000)}</td>
+                      <td className="py-1.5">{formatToRp(postage) || "-"}</td>
                     </tr>
                     <tr>
                       <td className="py-1.5">Jasa Aplikasi</td>
@@ -224,7 +268,7 @@ const CheckoutConfirmation = () => {
                     <tr className="text-base font-semibold lg:text-lg">
                       <td className="py-1.5">Total</td>
                       <td className="px-3 py-1.5">:</td>
-                      <td className="py-1.5">{formatToRp(1150000)}</td>
+                      <td className="py-1.5">{formatToRp(total)}</td>
                     </tr>
                   </tbody>
                 </table>
