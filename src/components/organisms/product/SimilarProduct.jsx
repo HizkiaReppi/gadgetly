@@ -15,7 +15,7 @@ const SimilarProduct = ({ products }) => {
               image={
                 typeof product.images === "object"
                   ? product.images[0].image_url
-                  : product.image
+                  : product.images
               }
               id={product.id}
               price={product.price}

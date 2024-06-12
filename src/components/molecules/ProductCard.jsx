@@ -1,9 +1,12 @@
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import IconButton from "../atoms/IconButton";
 import { Cart, Heart } from "../atoms/icons";
 import { formatToRp } from "../../utils/format";
+import { addToCart } from "../../redux/slice/cartSlice";
 
 const ProductCard = ({ name, image, price, id, variant }) => {
+  const dispatch = useDispatch();
   return (
     <div className="inline-block rounded-[10px] bg-white p-[18px] shadow">
       <div className="h-[346.364px] w-[346.364px] rounded-[10px] border border-gray-300">
@@ -26,7 +29,10 @@ const ProductCard = ({ name, image, price, id, variant }) => {
           </p>
           <div className="flex items-center gap-3">
             <IconButton outline icon={<Heart pathFill="#f97316" />} />
-            <IconButton icon={<Cart />} />
+            <IconButton
+              onClick={() => dispatch(addToCart({ id, warranty: false, price: price }))}
+              icon={<Cart />}
+            />
           </div>
         </div>
       </div>

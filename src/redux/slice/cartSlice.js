@@ -1,46 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import productImage from "../../assets/homepage/product-image.png";
 
 const initialState = {
-  products: [
-    {
-      id: 1,
-      name: "Iphone 12",
-      color: "White",
-      storage: "128GB",
-      ram: "8GB",
-      condition: "NORMAL",
-      price: 7000000,
-      image: productImage,
-      checked: true,
-      warranty: false,
-    },
-    {
-      id: 2,
-      name: "Iphone 13",
-      color: "Blue",
-      storage: "256GB",
-      ram: "16GB",
-      condition: "NORMAL",
-      price: 7000000,
-      image: productImage,
-      checked: true,
-      warranty: true,
-    },
-    {
-      id: 3,
-      name: "Iphone 12 Pro Max",
-      color: "Violet Blue",
-      storage: "256GB",
-      ram: "16GB",
-      condition: "NORMAL",
-      price: 7000000,
-      image: productImage,
-      checked: true,
-      warranty: true,
-    },
-  ],
-  checkoutData: [],
+  products: JSON.parse(localStorage.getItem("cart")) || [],
+  checkoutData: JSON.parse(localStorage.getItem("checkout")) || [],
 };
 
 const cartSlice = createSlice({
@@ -52,18 +14,42 @@ const cartSlice = createSlice({
       if (product) {
         product.checked = !product.checked;
       }
+
+      localStorage.setItem("cart", JSON.stringify(state.products));
     },
     removeProduct: (state, action) => {
       state.products = state.products.filter(
         (product) => product.id !== action.payload,
       );
+
+      localStorage.setItem("cart", JSON.stringify(state.products));
     },
     checkout: (state) => {
       state.checkoutData = state.products.filter((product) => product.checked);
+
+      localStorage.setItem("checkout", JSON.stringify(state.checkoutData));
+    },
+    addToCart: (state, action) => {
+      const itemInCart = state.products.find(
+        (product) => product.id === action.payload,
+      );
+      if (!itemInCart) {
+        state.products.push({
+          id: action.payload.id,
+          checked: false,
+          warranty: action.payload.warranty,
+          price: action.payload.price,
+        });
+
+        localStorage.setItem("cart", JSON.stringify(state.products));
+      } else {
+        return false;
+      }
     },
   },
 });
 
-export const { toggleProduct, removeProduct, checkout } = cartSlice.actions;
+export const { toggleProduct, removeProduct, checkout, addToCart } =
+  cartSlice.actions;
 
 export default cartSlice.reducer;

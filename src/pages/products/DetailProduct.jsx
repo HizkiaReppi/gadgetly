@@ -1,3 +1,4 @@
+import { useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { IoMdCheckmark } from "react-icons/io";
@@ -11,11 +12,14 @@ import ServicePolicy from "../../components/organisms/product/ServicePolicy";
 import SimilarProduct from "../../components/organisms/product/SimilarProduct";
 import axios from "../../utils/axios";
 import { formatToRp, toCapitalizeCase, diffForHuman } from "../../utils/format";
+import { addToCart } from "../../redux/slice/cartSlice";
 
 const DetailProduct = () => {
   const { id } = useParams();
+  const dispatch = useDispatch();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [selectedWarranty, setSelectedWarranty] = useState("garansi-30-hari");
   const [error, setError] = useState(null);
 
   const breadcrumbItems = [
@@ -89,11 +93,26 @@ const DetailProduct = () => {
                 Pelajari
               </div>
             </div>
-            <WarrantyOptions />
+            <WarrantyOptions
+              selectedWarranty={selectedWarranty}
+              setSelectedWarranty={setSelectedWarranty}
+            />
           </div>
           <div className="mt-7 flex flex-wrap gap-4">
             <IconButton outline icon={<Heart pathFill="#f97316" />} />
-            <Button outline className="lg:px-7">
+            <Button
+              outline
+              className="lg:px-7"
+              onClick={() =>
+                dispatch(
+                  addToCart({
+                    id,
+                    warranty: selectedWarranty !== "garansi-30-hari",
+                    price: product.price,
+                  }),
+                )
+              }
+            >
               <Cart pathFill="#f97316" />
               Tambahkan Keranjang
             </Button>

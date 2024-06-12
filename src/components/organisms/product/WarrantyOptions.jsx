@@ -1,8 +1,4 @@
-import { useState } from "react";
-
-const WarrantyOptions = () => {
-  const [selectedWarranty, setSelectedWarranty] = useState("garansi-30-hari");
-
+const WarrantyOptions = ({ selectedWarranty, setSelectedWarranty }) => {
   const handleChange = (event) => {
     setSelectedWarranty(event.target.value);
   };
