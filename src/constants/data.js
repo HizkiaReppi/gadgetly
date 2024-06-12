@@ -4,6 +4,11 @@ import bungaamelia from "../assets/testimonials/bungaamelia.png";
 import maanafis from "../assets/testimonials/maanafis.png";
 import zayyanzeiyn from "../assets/testimonials/zayyanzeiyn.png";
 import elsyaAbell from "../assets/testimonials/elsya_abell.png";
+import iconProduct from "../assets/icon/icon-product.png";
+import iconPesanan from "../assets/icon/icon-pesanan.png";
+import iconProfil from "../assets/icon/icon-profil.png";
+import iconPengiriman from "../assets/icon/icon-pengiriman-seller.png";
+import iconUlasan from "../assets/icon/icon-ulasan.png";
 
 export const testimonials = [
   {
@@ -66,7 +71,7 @@ export const footerLinks = [
       },
       {
         title: "Tentang Kami",
-        href: "/about",
+        href: "/about-us",
       },
       {
         title: "Produk",
@@ -78,7 +83,7 @@ export const footerLinks = [
       },
       {
         title: "Cara Membeli",
-        href: "/how-to-buy",
+        href: "#",
       },
     ],
   },
@@ -119,5 +124,33 @@ export const footerLinks = [
         href: "/legal/privacy-policy",
       },
     ],
+  },
+];
+
+export const sellerMenu = [
+  {
+    title: "Product",
+    image: iconProduct,
+    link: "/sellers/products",
+  },
+  {
+    title: "Pesanan",
+    image: iconPesanan,
+    link: "/sellers/orders",
+  },
+  {
+    title: "Profil",
+    image: iconProfil,
+    link: "/sellers/profile",
+  },
+  {
+    title: "Pengiriman",
+    image: iconPengiriman,
+    link: "/sellers/shipping",
+  },
+  {
+    title: "Ulasan",
+    image: iconUlasan,
+    link: "#",
   },
 ];

@@ -12,6 +12,7 @@ const OAuthCallback = lazy(() => import("./pages/OAuthCallback"));
 const TermsAndConditions = lazy(() => import("./pages/TermsAndConditions"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const SellerProfile = lazy(() => import("./pages/sellers/Profile"));
+const SellerDashboard = lazy(() => import("./pages/sellers/SellerDashboard"));
 const SellerAddProduct = lazy(() => import("./pages/sellers/AddProduct"));
 const DetailProduct = lazy(() => import("./pages/products/DetailProduct"));
 const Cart = lazy(() => import("./pages/products/Cart"));
@@ -57,6 +58,7 @@ export default function App() {
             <Route path="oauth/callback" element={<OAuthCallback />} />
           </Route>
           <Route path="sellers">
+            <Route path="dashboard" element={<SellerDashboard />} />
             <Route path="profile" element={<SellerProfile />} />
             <Route path="selling" element={<SellerAddProduct />} />
           </Route>
