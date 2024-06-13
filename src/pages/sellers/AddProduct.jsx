@@ -95,6 +95,7 @@ const AddProduct = () => {
         reset();
         setImages([]);
         alert("Product added successfully!");
+        navigate("/", {replace: true})
       }
     } catch (error) {
       handleFormError(error);
