@@ -1,8 +1,34 @@
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import Breadcrumb from "../../components/atoms/Breadcrumb";
 import { formatToRp, toCapitalizeCase } from "../../utils/format";
-import productImage from "../../assets/homepage/product-image.png";
+import { getOrderById } from "../../services/orderService";
 
 const DetailOrder = () => {
+  const { id } = useParams();
+  const [order, setOrder] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await getOrderById(id);
+        setOrder(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, [id]);
+
+  if (!order) return <div>Loading...</div>;
+
+  const product = order.items[0].product;
+
+  console.log({ order });
+  console.log(order.items);
+  console.log(product);
+
   const breadcrumbItems = [
     { label: "Beranda", to: "/" },
     { label: "Pesanan", to: "/orders" },
@@ -35,34 +61,40 @@ const DetailOrder = () => {
               <tr className="border-b">
                 <td className="flex flex-col items-center gap-2 p-2 md:flex-row md:gap-3 lg:gap-5">
                   <img
-                    src={productImage}
-                    alt="IPhone X"
+                    src={product.image_url}
+                    alt={product.title}
                     className="h-40 w-40 object-cover"
                   />
                   <div className="flex flex-col gap-2">
                     <h2 className="text-lg font-semibold md:text-xl lg:text-2xl">
-                      IPhone X
+                      {product.title}
                     </h2>
                     <p className="text-sm font-medium text-gray-500 md:text-base lg:text-lg">
-                      {toCapitalizeCase("Blue")} | 128GB | RAM 8GB
+                      {toCapitalizeCase(product.color)} | {product.storage} |
+                      RAM {product.ram}
                     </p>
                     <p className="text-sm font-medium text-gray-500 lg:text-base">
                       Berfungsi Dengan Baik | Produk Lengkap | Kondisi{" "}
-                      {toCapitalizeCase("NORMAL")} | Garansi 30 Hari
+                      {toCapitalizeCase(product.condition)}
                     </p>
                     <p className="mt-2 text-base font-semibold md:hidden">
-                      Harga: {formatToRp(5000000)}
+                      Harga: {formatToRp(product.price)}
                     </p>
                     <p className="mt-2 text-base font-semibold md:hidden">
-                      Status: <span className="badge-green">Selesai</span>
+                      Status:{" "}
+                      <span className="badge-green">{order.status}</span>
                     </p>
                   </div>
                 </td>
                 <td className="my-auto hidden h-full items-center p-2 text-center text-base font-medium md:table-cell md:text-lg lg:text-xl">
-                  {formatToRp(5000000)}
+                  {formatToRp(product.price)}
                 </td>
                 <td className="hidden text-center md:table-cell">
-                  <p className="badge-green">Selesai</p>
+                  <p
+                    className={`badge-${order.status === "PENDING" ? "yellow" : "green"}`}
+                  >
+                    {order.status}
+                  </p>
                 </td>
               </tr>
             </tbody>
@@ -74,11 +106,11 @@ const DetailOrder = () => {
             <div className="grid grid-cols-2 gap-5 md:gap-6 lg:gap-7">
               <div>
                 <h6 className="mb-1 font-medium">ID Pengiriman</h6>
-                <p>ad5ff9d9-3122-43e5-b854-6c2db4509118</p>
+                <p>{order.delivery?.id || "N/A"}</p>
               </div>
               <div>
                 <h6 className="mb-1 font-medium">Status</h6>
-                <p>Selesai</p>
+                <p>{order.status}</p>
               </div>
               <div>
                 <h6 className="mb-1 font-medium">Nama Pengirim</h6>
@@ -97,7 +129,7 @@ const DetailOrder = () => {
               </div>
               <div>
                 <h6 className="mb-1 font-medium">Nomor Resi</h6>
-                <p>JP238D34J821</p>
+                <p>{order.delivery?.tracking_number || "N/A"}</p>
               </div>
             </div>
           </div>
@@ -107,26 +139,23 @@ const DetailOrder = () => {
             <div className="grid grid-cols-2 gap-7">
               <div>
                 <h6 className="mb-1 font-medium">ID Pesanan</h6>
-                <p>989b202d-5708-47ed-80e5-370912db3b53</p>
+                <p>{order.id}</p>
               </div>
               <div>
                 <h6 className="mb-1 font-medium">Metode Pembayaran</h6>
-                <p>Cash On Delivery</p>
+                <p>{toCapitalizeCase(order?.detail?.payment_method?.split("_").join(" "))}</p>
               </div>
               <div>
                 <h6 className="mb-1 font-medium">Nama Penerima</h6>
-                <p>Hizkia Reppi</p>
+                <p>{order.detail.fullname}</p>
               </div>
               <div>
                 <h6 className="mb-1 font-medium">Nomor Telepon Penerima</h6>
-                <p>082345678910</p>
+                <p>{order.detail.phone}</p>
               </div>
               <div>
                 <h6 className="mb-1 font-medium">Alamat Penerima</h6>
-                <p>
-                  Jurusan PTIK (Ruangan Lab RPL), Universitas Negeri Manado.
-                  Minahasa, Provinsi Sulawesi Utara
-                </p>
+                <p>{order.detail.address}</p>
               </div>
             </div>
           </div>

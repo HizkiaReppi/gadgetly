@@ -67,7 +67,7 @@ const AllOrders = () => {
             <tbody>
               {products.map((product) => {
                 return (
-                  <tr key={product.id} className="border-b">
+                  <tr key={product.orderId} className="border-b">
                     <td className="flex flex-col items-center gap-2 p-2 md:flex-row md:gap-3 lg:gap-5">
                       <img
                         src={product.image_url}
@@ -90,7 +90,8 @@ const AllOrders = () => {
                           Harga: {formatToRp(product.price)}
                         </p>
                         <p className="mt-2 text-base font-semibold md:hidden">
-                          Status: <span className="badge-green">{product.status}</span>
+                          Status:{" "}
+                          <span className="badge-green">{product.status}</span>
                         </p>
                       </div>
                     </td>
@@ -98,7 +99,9 @@ const AllOrders = () => {
                       {formatToRp(product.price)}
                     </td>
                     <td className="hidden text-center md:table-cell">
-                      <p className={`badge-${product.status === 'PENDING' ? 'yellow' : 'green'}`}>
+                      <p
+                        className={`badge-${product.status === "PENDING" ? "yellow" : "green"}`}
+                      >
                         {product.status}
                       </p>
                     </td>
