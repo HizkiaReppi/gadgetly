@@ -17,7 +17,7 @@ const AllOrders = () => {
         const response = await getOrdersByUserId(user.id);
         setOrdersData(response.data);
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     };
 
@@ -31,8 +31,6 @@ const AllOrders = () => {
       ...item.product,
     }))
   );
-
-  console.log(products);
 
   const breadcrumbItems = [
     { label: "Beranda", to: "/" },

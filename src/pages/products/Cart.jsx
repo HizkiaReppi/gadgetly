@@ -49,7 +49,6 @@ const Cart = () => {
   const handleCheckout = () => {
     dispatch(checkout());
     const checkedProducts = products.filter((product) => product.checked);
-    console.log("Checkout products:", checkedProducts);
 
     // Simpan di local storage
     localStorage.setItem("checkoutProducts", JSON.stringify(checkedProducts));

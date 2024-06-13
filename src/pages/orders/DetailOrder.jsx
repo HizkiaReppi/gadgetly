@@ -25,10 +25,6 @@ const DetailOrder = () => {
 
   const product = order.items[0].product;
 
-  console.log({ order });
-  console.log(order.items);
-  console.log(product);
-
   const breadcrumbItems = [
     { label: "Beranda", to: "/" },
     { label: "Pesanan", to: "/orders" },
@@ -143,7 +139,11 @@ const DetailOrder = () => {
               </div>
               <div>
                 <h6 className="mb-1 font-medium">Metode Pembayaran</h6>
-                <p>{toCapitalizeCase(order?.detail?.payment_method?.split("_").join(" "))}</p>
+                <p>
+                  {toCapitalizeCase(
+                    order?.detail?.payment_method?.split("_").join(" "),
+                  )}
+                </p>
               </div>
               <div>
                 <h6 className="mb-1 font-medium">Nama Penerima</h6>
