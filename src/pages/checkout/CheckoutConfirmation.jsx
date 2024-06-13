@@ -1,22 +1,24 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import Breadcrumb from "../../components/atoms/Breadcrumb";
 import { formatToRp, toCapitalizeCase } from "../../utils/format";
-import productImage from "../../assets/homepage/product-image.png";
+import { createOrder } from "../../services/orderService";
 import Button from "../../components/atoms/Button";
 import axios from "../../utils/axios";
+import useAuth from "../../hooks/useAuth";
 
 const CheckoutConfirmation = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
   const [address, setAddress] = useState("");
-  const [paymentMethod, setPaymentMethod] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState(null);
   const [postage, setPostage] = useState(0);
   const [products, setProducts] = useState([]);
   const checkoutData = useSelector((state) => state.checkout.checkoutData);
   const shippingInfo = useSelector((state) => state.checkout.shippingInfo);
   const ids = checkoutData.map((product) => product.id);
+  const user = useAuth();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,10 +29,6 @@ const CheckoutConfirmation = () => {
 
     fetchData();
   }, [checkoutData]);
-
-  console.log(shippingInfo);
-  console.log(checkoutData);
-  console.log(products);
 
   useEffect(() => {
     const addressData =
@@ -58,6 +56,49 @@ const CheckoutConfirmation = () => {
   const handlePaymentChange = (method, postageCost) => {
     setPaymentMethod(method);
     setPostage(postageCost);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    const data = {
+      user_id: user.id,
+      total_price: total,
+      products: ids,
+      orderDetail: {
+        fullname: shippingInfo[0].fullname,
+        phone: shippingInfo[0].phone,
+        whatsapp: shippingInfo[0].whatsapp,
+        address,
+        email: shippingInfo[0].email,
+        payment_method: paymentMethod,
+        shipping_method: shippingInfo[0].shipping_method,
+      },
+    };
+
+    try {
+      const response = await createOrder(data, {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${user.token}`,
+      });
+
+      if (response.code === 201) {
+        localStorage.removeItem("checkout");
+        localStorage.removeItem("shipping_information");
+        const cartData = JSON.parse(localStorage.getItem("cart"));
+        const filteredCart = cartData.filter(
+          (product) => !checkoutData.find((item) => item.id === product.id),
+        );
+        localStorage.setItem("cart", JSON.stringify(filteredCart));
+
+        navigate("/orders", { replace: true });
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const breadcrumbItems = [
@@ -225,9 +266,11 @@ const CheckoutConfirmation = () => {
                         <td className="py-1.5">Metode Pembayaran</td>
                         <td className="px-3 py-1.5">:</td>
                         <td className="py-1.5">
-                          {toCapitalizeCase(
-                            paymentMethod.split("_").join(" "),
-                          ) || "-"}
+                          {paymentMethod
+                            ? toCapitalizeCase(
+                                paymentMethod?.split("_").join(" "),
+                              )
+                            : "-"}
                         </td>
                       </tr>
                       <tr>
@@ -277,7 +320,9 @@ const CheckoutConfirmation = () => {
           </div>
         </section>
         <div className="mt-8 text-center">
-          <Button>Pesan Sekarang</Button>
+          <Button onClick={handleSubmit} disabled={isLoading || !paymentMethod}>
+            Pesan Sekarang
+          </Button>
         </div>
       </div>
     </section>
