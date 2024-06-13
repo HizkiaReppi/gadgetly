@@ -6,6 +6,7 @@ import Navbar from "./components/molecules/Navbar";
 import Footer from "./components/molecules/Footer";
 
 const Homepage = lazy(() => import("./pages/Homepage"));
+const Products = lazy(() => import("./pages/Products"));
 const Register = lazy(() => import("./pages/Register"));
 const Login = lazy(() => import("./pages/Login"));
 const OAuthCallback = lazy(() => import("./pages/OAuthCallback"));
@@ -37,6 +38,7 @@ export default function App() {
         )}
         <Routes>
           <Route path="/" element={<Homepage />} />
+          <Route path="products" element={<Products />} />
           <Route path="cart" element={<Cart />} />
           <Route path="orders">
             <Route path="" element={<AllOrders />} />
