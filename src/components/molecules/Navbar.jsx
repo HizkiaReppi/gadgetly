@@ -64,16 +64,16 @@ const Navbar = () => {
           </li>
           <li>
             <NavLink
-              href="/categories"
-              active={location.pathname.startsWith("/categories")}
+              href="/products"
+              active={location.pathname.startsWith("/products")}
             >
               Kategori
             </NavLink>
           </li>
           <li>
             <NavLink
-              href="/about"
-              active={location.pathname.startsWith("/about")}
+              href="/about-us"
+              active={location.pathname.startsWith("/about-us")}
             >
               Tentang
             </NavLink>
@@ -190,8 +190,8 @@ const Navbar = () => {
         <li>
           <NavLink
             className="block"
-            href="/categories"
-            active={location.pathname.startsWith("/categories")}
+            href="/products"
+            active={location.pathname.startsWith("/products")}
           >
             Kategori
           </NavLink>
@@ -199,8 +199,8 @@ const Navbar = () => {
         <li>
           <NavLink
             className="block"
-            href="/about"
-            active={location.pathname.startsWith("/about")}
+            href="/about-us"
+            active={location.pathname.startsWith("/about-us")}
           >
             Tentang
           </NavLink>

@@ -75,11 +75,11 @@ export const footerLinks = [
       },
       {
         title: "Produk",
-        href: "/product",
+        href: "/products",
       },
       {
         title: "Kategori",
-        href: "/category",
+        href: "/products",
       },
       {
         title: "Cara Membeli",
