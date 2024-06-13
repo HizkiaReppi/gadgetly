@@ -23,7 +23,7 @@ const DetailOrder = () => {
 
   if (!order) return <div>Loading...</div>;
 
-  const product = order.items[0].product;
+  const products = order.items;
 
   const breadcrumbItems = [
     { label: "Beranda", to: "/" },
@@ -54,45 +54,47 @@ const DetailOrder = () => {
               </tr>
             </thead>
             <tbody>
-              <tr className="border-b">
-                <td className="flex flex-col items-center gap-2 p-2 md:flex-row md:gap-3 lg:gap-5">
-                  <img
-                    src={product.image_url}
-                    alt={product.title}
-                    className="h-40 w-40 object-cover"
-                  />
-                  <div className="flex flex-col gap-2">
-                    <h2 className="text-lg font-semibold md:text-xl lg:text-2xl">
-                      {product.title}
-                    </h2>
-                    <p className="text-sm font-medium text-gray-500 md:text-base lg:text-lg">
-                      {toCapitalizeCase(product.color)} | {product.storage} |
-                      RAM {product.ram}
+              {products.map((item) => (
+                <tr key={item.product.id} className="border-b">
+                  <td className="flex flex-col items-center gap-2 p-2 md:flex-row md:gap-3 lg:gap-5">
+                    <img
+                      src={item.product.image_url}
+                      alt={item.product.title}
+                      className="h-40 w-40 rounded-md object-cover"
+                    />
+                    <div className="flex flex-col gap-2">
+                      <h2 className="text-lg font-semibold md:text-xl lg:text-2xl">
+                        {item.product.title}
+                      </h2>
+                      <p className="text-sm font-medium text-gray-500 md:text-base lg:text-lg">
+                        {toCapitalizeCase(item.product.color)} |{" "}
+                        {item.product.storage} | RAM {item.product.ram}
+                      </p>
+                      <p className="text-sm font-medium text-gray-500 lg:text-base">
+                        Berfungsi Dengan Baik | Produk Lengkap | Kondisi{" "}
+                        {toCapitalizeCase(item.product.condition)}
+                      </p>
+                      <p className="mt-2 text-base font-semibold md:hidden">
+                        Harga: {formatToRp(item.product.price)}
+                      </p>
+                      <p className="mt-2 text-base font-semibold md:hidden">
+                        Status:{" "}
+                        <span className="badge-green">{order.status}</span>
+                      </p>
+                    </div>
+                  </td>
+                  <td className="my-auto hidden h-full items-center p-2 text-center text-base font-medium md:table-cell md:text-lg lg:text-xl">
+                    {formatToRp(item.product.price)}
+                  </td>
+                  <td className="hidden text-center md:table-cell">
+                    <p
+                      className={`badge-${order.status === "PENDING" ? "yellow" : "green"}`}
+                    >
+                      {order.status}
                     </p>
-                    <p className="text-sm font-medium text-gray-500 lg:text-base">
-                      Berfungsi Dengan Baik | Produk Lengkap | Kondisi{" "}
-                      {toCapitalizeCase(product.condition)}
-                    </p>
-                    <p className="mt-2 text-base font-semibold md:hidden">
-                      Harga: {formatToRp(product.price)}
-                    </p>
-                    <p className="mt-2 text-base font-semibold md:hidden">
-                      Status:{" "}
-                      <span className="badge-green">{order.status}</span>
-                    </p>
-                  </div>
-                </td>
-                <td className="my-auto hidden h-full items-center p-2 text-center text-base font-medium md:table-cell md:text-lg lg:text-xl">
-                  {formatToRp(product.price)}
-                </td>
-                <td className="hidden text-center md:table-cell">
-                  <p
-                    className={`badge-${order.status === "PENDING" ? "yellow" : "green"}`}
-                  >
-                    {order.status}
-                  </p>
-                </td>
-              </tr>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </section>
