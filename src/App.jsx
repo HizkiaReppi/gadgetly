@@ -6,6 +6,7 @@ import Navbar from "./components/molecules/Navbar";
 import Footer from "./components/molecules/Footer";
 
 const Homepage = lazy(() => import("./pages/Homepage"));
+const AboutUs = lazy(() => import("./pages/AboutUs"));
 const Products = lazy(() => import("./pages/Products"));
 const Category = lazy(() => import("./pages/Category"));
 const Register = lazy(() => import("./pages/Register"));
@@ -39,6 +40,7 @@ export default function App() {
         )}
         <Routes>
           <Route path="/" element={<Homepage />} />
+          <Route path="about-us" element={<AboutUs />} />
           <Route path="products" element={<Products />} />
           <Route path="categories/:slug" element={<Category />} />
           <Route path="cart" element={<Cart />} />

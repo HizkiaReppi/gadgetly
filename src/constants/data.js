@@ -10,6 +10,13 @@ import iconProfil from "../assets/icon/icon-profil.png";
 import iconPengiriman from "../assets/icon/icon-pengiriman-seller.png";
 import iconUlasan from "../assets/icon/icon-ulasan.png";
 
+import hizkia from "../assets/member/hizkia-reppi.jpg";
+import grace from "../assets/member/grace-zalukhu.jpg";
+import nasywa from "../assets/member/nasywa.jpg";
+import citra from "../assets/member/citra.jpg";
+import bintang from "../assets/member/bintang.jpg";
+import izzul from "../assets/member/izzul.jpg";
+
 export const testimonials = [
   {
     id: "f1b3b3b4-1b3b-4b3b-8b3b-3b3b3b3b3b3b",
@@ -152,5 +159,38 @@ export const sellerMenu = [
     title: "Ulasan",
     image: iconUlasan,
     link: "#",
+  },
+];
+
+export const members = [
+  {
+    name: "Hizkia Jefren Reppi",
+    role: "Fullstack Developer",
+    image: hizkia,
+  },
+  {
+    name: "Bintang Mahaputra Ramadhan",
+    role: "Frontend Web Developer",
+    image: bintang,
+  },
+  {
+    name: "Izzul Fathul Huda",
+    role: "Project Manager",
+    image: izzul,
+  },
+  {
+    name: "Citra Dewi Puspita Sari",
+    role: "UI/UX Designer",
+    image: citra,
+  },
+  {
+    name: "Nasywa Zafirah Syahrani",
+    role: "UI/UX Designer",
+    image: nasywa,
+  },
+  {
+    name: "Grace Natalia Zalukhu",
+    role: "Frontend Web Developer",
+    image: grace,
   },
 ];
