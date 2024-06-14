@@ -26,7 +26,6 @@ const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const isAuthenticated = useSelector((state) => state.login.isAuthenticated);
   const user = useAuth();
-  console.log(user);
 
   const handleClick = () => setNav(!nav);
 

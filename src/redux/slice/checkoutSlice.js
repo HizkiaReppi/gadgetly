@@ -2,24 +2,26 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   checkoutData: JSON.parse(localStorage.getItem("checkout")) || [],
-  shippingInfo: JSON.parse(localStorage.getItem("shipping_information")) || [],
+  shippingInfo: JSON.parse(localStorage.getItem("shipping_information")) || {},
 };
 
 const checkoutSlice = createSlice({
-  name: "cart",
+  name: "checkout",
   initialState,
   reducers: {
     addShippingInfo: (state, action) => {
-      state.shippingInfo.push(action.payload);
-
+      state.shippingInfo = action.payload;
       localStorage.setItem(
         "shipping_information",
         JSON.stringify(state.shippingInfo),
       );
     },
+    updateCheckoutData: (state, action) => {
+      state.checkoutData = action.payload;
+      localStorage.setItem("checkout", JSON.stringify(state.checkoutData));
+    },
   },
 });
 
-export const { addShippingInfo } = checkoutSlice.actions;
-
+export const { addShippingInfo, updateCheckoutData } = checkoutSlice.actions;
 export default checkoutSlice.reducer;

@@ -2,6 +2,7 @@ import { useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { IoMdCheckmark } from "react-icons/io";
+import { toast } from "react-toastify";
 import { Cart, Heart } from "../../components/atoms/icons";
 import Button from "../../components/atoms/Button";
 import Breadcrumb from "../../components/atoms/Breadcrumb";
@@ -57,6 +58,17 @@ const DetailProduct = () => {
     ? product.images.map((image) => image.image_url)
     : [];
 
+  const handleClick = () => {
+    dispatch(
+      addToCart({
+        id,
+        warranty: selectedWarranty !== "garansi-30-hari",
+        price: product.price,
+      }),
+    );
+    toast.success(`${product.title} Berhasil Ditambahkan Ke Keranjang`);
+  };
+
   return (
     <section className="mx-10 my-10 md:mx-20 lg:mx-28">
       <Breadcrumb items={breadcrumbItems} />
@@ -100,19 +112,7 @@ const DetailProduct = () => {
           </div>
           <div className="mt-7 flex flex-wrap gap-4">
             <IconButton outline icon={<Heart pathFill="#f97316" />} />
-            <Button
-              outline
-              className="lg:px-7"
-              onClick={() =>
-                dispatch(
-                  addToCart({
-                    id,
-                    warranty: selectedWarranty !== "garansi-30-hari",
-                    price: product.price,
-                  }),
-                )
-              }
-            >
+            <Button outline className="lg:px-7" onClick={handleClick}>
               <Cart pathFill="#f97316" />
               Tambahkan Keranjang
             </Button>

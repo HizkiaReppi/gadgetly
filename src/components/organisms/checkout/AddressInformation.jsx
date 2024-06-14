@@ -328,7 +328,6 @@ const AddressInformation = ({ register, errors, control, setValue }) => {
               placeholder="Detail Lainnya"
               maxLength={50}
               register={register}
-              required
               errors={errors?.other_detail}
               textareaClassName="bg-white"
               disabled={!selectedVillage}

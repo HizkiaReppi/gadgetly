@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import Breadcrumb from "../../components/atoms/Breadcrumb";
-import { formatToRp, toCapitalizeCase } from "../../utils/format";
-import { createOrder } from "../../services/orderService";
 import Button from "../../components/atoms/Button";
 import axios from "../../utils/axios";
 import useAuth from "../../hooks/useAuth";
+import { formatToRp, toCapitalizeCase } from "../../utils/format";
+import { createOrder } from "../../services/orderService";
 
 const CheckoutConfirmation = () => {
   const navigate = useNavigate();
@@ -31,18 +32,7 @@ const CheckoutConfirmation = () => {
   }, [checkoutData]);
 
   useEffect(() => {
-    const addressData =
-      shippingInfo[0].street +
-      " (" +
-      shippingInfo[0].other_detail +
-      "), " +
-      shippingInfo[0].village.label +
-      ", " +
-      shippingInfo[0].district.label +
-      ", " +
-      shippingInfo[0].regency.label +
-      ", " +
-      shippingInfo[0].province.label;
+    const addressData = `${shippingInfo.street}${shippingInfo.other_detail ? " (" + shippingInfo.other_detail + ")" : ""}, ${shippingInfo.village.label}, ${shippingInfo.district.label}, ${shippingInfo.regency.label}, ${shippingInfo.province.label}`;
 
     setAddress(addressData);
   }, []);
@@ -67,13 +57,13 @@ const CheckoutConfirmation = () => {
       total_price: total,
       products: ids,
       orderDetail: {
-        fullname: shippingInfo[0].fullname,
-        phone: shippingInfo[0].phone,
-        whatsapp: shippingInfo[0].whatsapp,
+        fullname: shippingInfo.fullname,
+        phone: shippingInfo.phone,
+        whatsapp: shippingInfo.whatsapp,
         address,
-        email: shippingInfo[0].email,
+        email: shippingInfo.email,
         payment_method: paymentMethod,
-        shipping_method: shippingInfo[0].shipping_method,
+        shipping_method: shippingInfo.shipping_method,
       },
     };
 
@@ -91,7 +81,12 @@ const CheckoutConfirmation = () => {
           (product) => !checkoutData.find((item) => item.id === product.id),
         );
         localStorage.setItem("cart", JSON.stringify(filteredCart));
+        const cart = JSON.parse(localStorage.getItem("cart"));
+        if (cart.length === 0) {
+          localStorage.removeItem("cart");
+        }
 
+        toast.success(`Pesanan Berhasil!`);
         navigate("/orders", { replace: true });
       }
     } catch (error) {
@@ -259,7 +254,7 @@ const CheckoutConfirmation = () => {
                         <td className="py-1.5">Metode Pengiriman</td>
                         <td className="px-3 py-1.5">:</td>
                         <td className="py-1.5">
-                          {shippingInfo[0].shipping_method.toUpperCase()}
+                          {shippingInfo.shipping_method.toUpperCase()}
                         </td>
                       </tr>
                       <tr>
