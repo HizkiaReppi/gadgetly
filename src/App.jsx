@@ -1,9 +1,9 @@
 import { lazy, Suspense } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
-
 import Loading from "./components/atoms/Loading";
 import Navbar from "./components/molecules/Navbar";
 import Footer from "./components/molecules/Footer";
+import ProtectedRoute from "./pages/ProtectedRoute";
 
 const Homepage = lazy(() => import("./pages/Homepage"));
 const AboutUs = lazy(() => import("./pages/AboutUs"));
@@ -59,9 +59,30 @@ export default function App() {
             <Route path=":id" element={<DetailProduct />} />
           </Route>
           <Route path="auth">
-            <Route path="register" element={<Register />} />
-            <Route path="login" element={<Login />} />
-            <Route path="oauth/callback" element={<OAuthCallback />} />
+            <Route
+              path="register"
+              element={
+                <ProtectedRoute redirectTo="/">
+                  <Register />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="login"
+              element={
+                <ProtectedRoute redirectTo="/">
+                  <Login />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="oauth/callback"
+              element={
+                <ProtectedRoute redirectTo="/">
+                  <OAuthCallback />
+                </ProtectedRoute>
+              }
+            />
           </Route>
           <Route path="sellers">
             <Route path="dashboard" element={<SellerDashboard />} />
