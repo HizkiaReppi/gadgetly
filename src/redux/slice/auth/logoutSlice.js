@@ -12,8 +12,6 @@ const logoutSlice = createSlice({
       state.status = "idle";
       localStorage.removeItem("token");
       localStorage.removeItem("refresh_token");
-
-      window.location.href = "/";
     },
   },
 });
