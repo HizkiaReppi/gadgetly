@@ -8,7 +8,7 @@ const AboutUs = () => {
         <h1 className="mb-3 text-lg font-semibold text-primary-500 md:text-2xl lg:text-3xl">
           Tentang Gadgetly
         </h1>
-        <p className="text-justify text-base leading-8">
+        <p className="text-justify text-base leading-8 text-black">
           Selamat datang di Gadgetly, destinasi e-commerce terpercaya yang
           didedikasikan untuk memenuhi kebutuhan Anda akan gadget bekas
           berkualitas. Kami memahami bahwa teknologi berkembang pesat dan
@@ -19,7 +19,7 @@ const AboutUs = () => {
           memberikan akses kepada masyarakat untuk memiliki gadget impian mereka
           dengan harga yang lebih terjangkau tanpa harus mengorbankan kualitas.
         </p>
-        <p className="mt-5 text-justify text-base leading-8">
+        <p className="mt-5 text-justify text-base leading-8 text-black">
           Di Gadgetly, kami berkomitmen untuk menghadirkan pengalaman belanja
           online yang aman, nyaman, dan menyenangkan. Setiap produk yang
           tersedia di platform kami dilengkapi dengan deskripsi yang jelas dan
@@ -39,7 +39,7 @@ const AboutUs = () => {
           <h2 className="mb-3 text-lg font-semibold text-primary-500 md:text-2xl lg:text-3xl">
             Tentang 7Teen
           </h2>
-          <p className="text-justify text-base leading-8">
+          <p className="text-justify text-base leading-8 text-black">
             Perkenalkan kami, 7Teen, sebuah tim inovatif yang terdiri dari
             individu-individu berbakat yang berasal dari Grup{" "}
             <em>
@@ -56,7 +56,7 @@ const AboutUs = () => {
           <h3 className="mb-3 mt-10 text-lg font-semibold text-primary-500 md:text-2xl lg:text-3xl">
             Tujuan 7Teen
           </h3>
-          <p className="text-justify text-base leading-8">
+          <p className="text-justify text-base leading-8 text-black">
             Tujuan kami adalah untuk memberikan kontribusi nyata dalam dunia
             teknologi dengan menciptakan desain antarmuka pengguna (UI) yang
             menarik dan pengalaman pengguna (UX) yang efisien. Kami berupaya
@@ -78,6 +78,7 @@ const AboutUs = () => {
               image={member.image}
               name={member.name}
               position={member.role}
+              usernameGithub={member.usernameGithub}
             />
           ))}
         </div>

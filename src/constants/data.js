@@ -167,30 +167,36 @@ export const members = [
     name: "Hizkia Jefren Reppi",
     role: "Fullstack Developer",
     image: hizkia,
+    usernameGithub: "hizkiareppi",
   },
   {
     name: "Bintang Mahaputra Ramadhan",
     role: "Frontend Web Developer",
     image: bintang,
+    usernameGithub: "bintanggmr",
   },
   {
     name: "Izzul Fathul Huda",
     role: "Project Manager",
     image: izzul,
+    usernameGithub: "izzulfath",
   },
   {
     name: "Citra Dewi Puspita Sari",
     role: "UI/UX Designer",
     image: citra,
+    usernameGithub: "citrasyya",
   },
   {
     name: "Nasywa Zafirah Syahrani",
     role: "UI/UX Designer",
     image: nasywa,
+    usernameGithub: "nasywazfh",
   },
   {
     name: "Grace Natalia Zalukhu",
     role: "Frontend Web Developer",
     image: grace,
+    usernameGithub: "Gracenzl",
   },
 ];
