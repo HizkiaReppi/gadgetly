@@ -5,7 +5,7 @@
  */
 
 import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { HiMenuAlt3 } from "react-icons/hi";
@@ -20,11 +20,13 @@ import useAuth from "../../hooks/useAuth";
 
 const Navbar = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { register } = useForm();
   const [nav, setNav] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const isAuthenticated = useSelector((state) => state.login.isAuthenticated);
   const user = useAuth();
+  console.log(user);
 
   const handleClick = () => setNav(!nav);
 
@@ -32,6 +34,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     dispatch(logout());
+    navigate("/auth/login", { replace: true });
   };
 
   const toggleDropdown = () => {
@@ -110,30 +113,30 @@ const Navbar = () => {
                 onClick={toggleDropdown}
               />
               {isDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-72 rounded-md bg-white shadow-md ring-1 ring-black ring-opacity-5">
+                <div className="absolute right-0 mt-2 w-80 rounded-md bg-white shadow-md ring-1 ring-black ring-opacity-5">
                   <div className="p-4">
                     <div className="flex items-center gap-3">
                       <div className="h-11 w-11 overflow-hidden rounded-full border border-black">
                         <img
                           src={
-                            user?.photo
-                              ? user?.photo
-                              : `https://eu.ui-avatars.com/api/?name=${user?.name}&size=250`
+                            user.photo
+                              ? user.photo
+                              : `https://eu.ui-avatars.com/api/?name=${user.name}&size=250`
                           }
-                          alt={`Foto Profil ${user?.name}`}
+                          alt={`Foto Profil ${user.name}`}
                           className="h-full w-full rounded-full object-cover"
                         />
                       </div>
-                      <div className="w-full flex-1 border-l border-gray-300 pl-3">
-                        <p className="mb-1 break-words text-base font-semibold text-gray-700">
-                          {user?.name}
+                      <div className="max-w-56 flex-1 border-l border-gray-300 pl-3">
+                        <p className="mb-1 w-full break-words text-base font-semibold text-gray-700">
+                          {user.name}
                         </p>
                         <p className="w-full break-words pr-10 text-xs font-medium text-gray-700">
-                          {user?.email}
+                          {user.email}
                         </p>
                       </div>
                     </div>
-                    <hr className="my-4 h-1 w-full lg:my-5" />
+                    <hr className="mb-3 mt-4 h-1 w-full lg:mb-3.5 lg:mt-5" />
                     <Link
                       to="/profile"
                       className="btn btn-outline w-full px-14 text-sm"
@@ -142,7 +145,7 @@ const Navbar = () => {
                     </Link>
                     <Link
                       to="/orders"
-                      className="mt-2 btn btn-outline w-full px-14 text-sm"
+                      className="btn btn-outline mt-2 w-full px-14 text-sm"
                     >
                       Pesanan
                     </Link>
