@@ -88,10 +88,6 @@ export const footerLinks = [
         title: "Kategori",
         href: "/products",
       },
-      {
-        title: "Cara Membeli",
-        href: "#",
-      },
     ],
   },
   {
