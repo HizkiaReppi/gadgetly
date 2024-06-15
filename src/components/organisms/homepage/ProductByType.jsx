@@ -1,14 +1,15 @@
-import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect, useCallback } from "react";
 import Heading from "../../atoms/Heading";
 import BrandType from "../../atoms/BrandType";
 import ProductCard from "../../molecules/ProductCard";
 import axios from "../../../utils/axios";
+import { debounce } from "../../../utils/debounce";
 
 const ProductByType = () => {
   const [products, setProducts] = useState([]);
   const [brands, setBrands] = useState([]);
   const [selectedBrand, setSelectedBrand] = useState(null);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     const fetchBrands = async () => {
@@ -25,23 +26,35 @@ const ProductByType = () => {
     fetchBrands();
   }, []);
 
+  const fetchProductsByBrand = useCallback(
+    debounce(async (brand, page) => {
+      try {
+        const responseProducts = await axios.get(`/categories/${brand.slug}`, {
+          params: { page, limit: 3 },
+        });
+        const dataProducts = responseProducts.data;
+        setProducts(dataProducts.data.products);
+      } catch (error) {
+        console.error(error);
+      }
+    }, 300),
+    [],
+  );
+
   useEffect(() => {
     if (selectedBrand) {
-      const fetchProductsByBrand = async () => {
-        try {
-          const responseProducts = await axios.get(
-            `/categories/${selectedBrand.slug}`,
-          );
-          const dataProducts = responseProducts.data;
-          setProducts(dataProducts.data.products.slice(0, 3));
-        } catch (error) {
-          console.error(error);
-        }
-      };
-
-      fetchProductsByBrand();
+      fetchProductsByBrand(selectedBrand, page);
     }
-  }, [selectedBrand]);
+  }, [selectedBrand, page, fetchProductsByBrand]);
+
+  const handleBrandClick = (brand) => {
+    setSelectedBrand(brand);
+    setPage(1);
+  };
+
+  const handleLoadMore = () => {
+    setPage((prevPage) => prevPage + 1);
+  };
 
   return (
     <section className="mt-20">
@@ -51,7 +64,7 @@ const ProductByType = () => {
           <BrandType
             key={brand.id}
             brand={brand.name}
-            onClick={() => setSelectedBrand(brand)}
+            onClick={() => handleBrandClick(brand)}
             outline={selectedBrand?.id !== brand.id}
           />
         ))}
@@ -71,11 +84,13 @@ const ProductByType = () => {
           );
         })}
       </div>
-      <div className="mt-[72px] text-center">
-        <Link to="/product" className="btn btn-normal">
-          Lihat Semua
-        </Link>
-      </div>
+      {products.length > 0 && (
+        <div className="mt-[72px] text-center">
+          <button className="btn btn-normal" onClick={handleLoadMore}>
+            Lihat Lagi
+          </button>
+        </div>
+      )}
     </section>
   );
 };
