@@ -81,7 +81,7 @@ const Cart = () => {
             {products.map((product, index) => {
               product.warranty = dataProducts.find(
                 (data) => data.id === product.id,
-              ).warranty;
+              )?.warranty;
               return (
                 <tr
                   key={product.id}

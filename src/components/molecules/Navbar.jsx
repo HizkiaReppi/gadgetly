@@ -25,6 +25,7 @@ const Navbar = () => {
   const [nav, setNav] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const isAuthenticated = useSelector((state) => state.login.isAuthenticated);
+  const cart = useSelector((state) => state.cart.products);
   const user = useAuth();
 
   const handleClick = () => setNav(!nav);
@@ -103,8 +104,11 @@ const Navbar = () => {
         ) : (
           <div className="flex items-center gap-4">
             <HeartIcon className="w-[35px] cursor-pointer" />
-            <Link to="/cart">
+            <Link to="/cart" className="relative">
               <CartIcon className="w-[35px] cursor-pointer" />
+              <div className="absolute -right-1 -top-1 w-6 h-6 font-semibold rounded-full bg-red-500 flex items-center justify-center text-xs text-white hover:text-white">
+                {cart.length}
+              </div>
             </Link>
             <div className="relative">
               <UserIcon
